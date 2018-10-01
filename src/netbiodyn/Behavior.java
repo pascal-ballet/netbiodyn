@@ -56,6 +56,7 @@ public class Behavior extends Moteur implements Externalizable {
     public boolean _code_parse = false;
     public ArrayList<WndEditElementDeReaction> _ListElementsReactions = new ArrayList<>();
 //    private static final long serialVersionUID = -8199498788176385232;
+    private double _age;
 
     /**
      * Creates new form MoteurReaction
@@ -89,6 +90,7 @@ public class Behavior extends Moteur implements Externalizable {
         m._positions = (ArrayList<String>) _positions.clone();
         m._ListElementsReactions = (ArrayList<WndEditElementDeReaction>) _ListElementsReactions.clone();
         m.set_k(get_k());
+        m.set_age(get_age());
         return m;
     }
 
@@ -215,7 +217,7 @@ public class Behavior extends Moteur implements Externalizable {
 
         for (int j = instances.getSize() - 1; j >= 0; j--) {
             c_a = instances.getInList(j);
-            //recherche d'une molecule A  dans la liste
+            //recherche d'un agent A  dans la liste
 
             if (c_a.getNom().equals(_reactifs.get(0)) && c_a.isSelectionne() == false) {
                 x = c_a.getX();
@@ -224,7 +226,7 @@ public class Behavior extends Moteur implements Externalizable {
 
                 // Test si la reaction a lieu ou pas
                 double hasard = RandomGen.getInstance().nextDouble();
-                if (hasard < this._k) {
+                if (hasard < this._k && c_a.age >= _age ) {
                     int x_min, x_max, y_min, y_max, z_min, z_max;
 
                     x_min = Math.max(0, x - 1);
@@ -299,7 +301,7 @@ public class Behavior extends Moteur implements Externalizable {
                                     }
                                 }
                             }
-                            if (trouve == true) // On prend 1 seul reactif parmi tous les possibles
+                            if (trouve == true) // On prend 1 seul reactif parmi tous les possibles (tous ceux trouves autour)
                             {
                                 int n = RandomGen.getInstance().nextInt(lst_reactifs_tmp.size());
                                 listReactifs.add(lst_reactifs_tmp.get(n));
@@ -451,6 +453,14 @@ public class Behavior extends Moteur implements Externalizable {
         return _k;
     }
 
+    public void set_age(double a) {
+        _age = a;
+    }    
+
+    public double get_age() {
+        return _age;
+    }
+    
     @Override
     public ArrayList<String> toSave() {
         ArrayList<String> toSave = super.toSave();

@@ -263,7 +263,7 @@ public class WndEditReaction extends javax.swing.JDialog {
         if (Lang.getInstance().getLang().equals("FR")) {
             jLabelNom.setText("Nom");
             jLabelComportement.setText("Comportement");
-            //jLabelProba.setText("Probabilité");
+            jLabelProba.setText("Probabilité");
             jLabelPositions.setText("Positions");
             jLabelProduits.setText("Produits");
             button_annuler.setText("Annuler");
@@ -271,7 +271,7 @@ public class WndEditReaction extends javax.swing.JDialog {
         } else {
             jLabelNom.setText("Name");
             jLabelComportement.setText("Behaviour");
-            //jLabelProba.setText("Probability");
+            jLabelProba.setText("Probability");
             jLabelPositions.setText("Positions");
             jLabelProduits.setText("Products");
             button_annuler.setText("Cancel");
@@ -283,7 +283,8 @@ public class WndEditReaction extends javax.swing.JDialog {
 
         textBox_etiquette.setText(_r3.getEtiquettes());
         textBox_k.setText(((Double) _r3.get_k()).toString());
-
+        textBox_age.setText(((Double) _r3.get_age()).toString());
+        
         // Table des reactifs
         Object[][] donnees_reactifs = {
             {new JComboBox()}, {new JComboBox()}, {new JComboBox()}, //{new JComboBox()}, {new JComboBox()}, {new JComboBox()},
@@ -397,7 +398,9 @@ public class WndEditReaction extends javax.swing.JDialog {
         jLabel19 = new javax.swing.JLabel();
         jLabelDescription = new javax.swing.JLabel();
         textBox_etiquette = new javax.swing.JTextField();
-        jComboBox_Cdt = new javax.swing.JComboBox<>();
+        jLabelProba = new javax.swing.JLabel();
+        jLabelAge = new javax.swing.JLabel();
+        textBox_age = new javax.swing.JTextField();
 
         setAlwaysOnTop(true);
         setBackground(new java.awt.Color(192, 189, 255));
@@ -432,12 +435,12 @@ public class WndEditReaction extends javax.swing.JDialog {
         jScrollPane5.setViewportView(jTextDescription);
 
         getContentPane().add(jScrollPane5);
-        jScrollPane5.setBounds(320, 40, 170, 60);
+        jScrollPane5.setBounds(320, 40, 170, 90);
 
         jLabelPositions.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         jLabelPositions.setText("Positions"); // NOI18N
         getContentPane().add(jLabelPositions);
-        jLabelPositions.setBounds(240, 110, 63, 15);
+        jLabelPositions.setBounds(240, 150, 63, 15);
 
         dataGridView_reactifs.setBackground(new java.awt.Color(200, 200, 200));
         dataGridView_reactifs.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -465,7 +468,7 @@ public class WndEditReaction extends javax.swing.JDialog {
         dataGridView_reactifs.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(40, 130, 160, 130);
+        jScrollPane1.setBounds(40, 170, 160, 130);
 
         dataGridView_produits.setBackground(new java.awt.Color(200, 200, 200));
         dataGridView_produits.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -498,19 +501,19 @@ public class WndEditReaction extends javax.swing.JDialog {
         jScrollPane2.setViewportView(dataGridView_produits);
 
         getContentPane().add(jScrollPane2);
-        jScrollPane2.setBounds(320, 130, 170, 130);
+        jScrollPane2.setBounds(320, 170, 170, 130);
 
         jLabelProduits.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         jLabelProduits.setText("Produits"); // NOI18N
         getContentPane().add(jLabelProduits);
-        jLabelProduits.setBounds(380, 110, 63, 15);
+        jLabelProduits.setBounds(380, 150, 63, 15);
 
         textBox_k.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         textBox_k.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         textBox_k.setText("1"); // NOI18N
         textBox_k.setToolTipText("Must be between 0 (never) and 1 (always)");
         getContentPane().add(textBox_k);
-        textBox_k.setBounds(100, 80, 50, 21);
+        textBox_k.setBounds(100, 80, 150, 21);
 
         jLabelComportement.setFont(new java.awt.Font("DejaVu Sans", 1, 24)); // NOI18N
         jLabelComportement.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -527,7 +530,7 @@ public class WndEditReaction extends javax.swing.JDialog {
             }
         });
         getContentPane().add(button_valider);
-        button_valider.setBounds(10, 280, 260, 40);
+        button_valider.setBounds(10, 320, 260, 40);
 
         button_annuler.setBackground(new java.awt.Color(255, 153, 153));
         button_annuler.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
@@ -543,60 +546,64 @@ public class WndEditReaction extends javax.swing.JDialog {
             }
         });
         getContentPane().add(button_annuler);
-        button_annuler.setBounds(270, 280, 230, 40);
+        button_annuler.setBounds(270, 320, 230, 40);
 
         jLabelNom.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        jLabelNom.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelNom.setText("Nom comport."); // NOI18N
         getContentPane().add(jLabelNom);
-        jLabelNom.setBounds(10, 50, 90, 15);
+        jLabelNom.setBounds(10, 45, 80, 20);
 
         jButton1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 0, 0));
         jButton1.setText("x");
         jButton1.setToolTipText("Clean the line");
+        jButton1.setMargin(new java.awt.Insets(0, 0, 0, 0));
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(14, 150, 20, 30);
+        jButton1.setBounds(0, 190, 40, 30);
 
         jButton2.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 0, 0));
         jButton2.setText("x");
         jButton2.setToolTipText("Clean the line");
+        jButton2.setMargin(new java.awt.Insets(0, 0, 0, 0));
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton2MouseClicked(evt);
             }
         });
         getContentPane().add(jButton2);
-        jButton2.setBounds(14, 187, 20, 30);
+        jButton2.setBounds(0, 230, 40, 30);
 
         jButton3.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 0, 0));
         jButton3.setText("x");
         jButton3.setToolTipText("Clean the line");
+        jButton3.setMargin(new java.awt.Insets(0, 0, 0, 0));
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton3MouseClicked(evt);
             }
         });
         getContentPane().add(jButton3);
-        jButton3.setBounds(14, 223, 20, 30);
+        jButton3.setBounds(0, 270, 40, 30);
 
         jPanel_cplx.setBackground(java.awt.Color.white);
         jPanel_cplx.setLayout(new javax.swing.BoxLayout(jPanel_cplx, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane4.setViewportView(jPanel_cplx);
 
         getContentPane().add(jScrollPane4);
-        jScrollPane4.setBounds(10, 130, 490, 140);
+        jScrollPane4.setBounds(0, 170, 500, 140);
 
         jLabelReactifs.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         jLabelReactifs.setText("Reactifs"); // NOI18N
         getContentPane().add(jLabelReactifs);
-        jLabelReactifs.setBounds(90, 110, 63, 15);
+        jLabelReactifs.setBounds(90, 150, 63, 15);
 
         jLabel19.setBackground(new java.awt.Color(153, 153, 255));
         jLabel19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -605,6 +612,7 @@ public class WndEditReaction extends javax.swing.JDialog {
         jLabel19.setBounds(0, 0, 510, 30);
 
         jLabelDescription.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        jLabelDescription.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelDescription.setText("Descr."); // NOI18N
         getContentPane().add(jLabelDescription);
         jLabelDescription.setBounds(260, 50, 50, 15);
@@ -626,11 +634,26 @@ public class WndEditReaction extends javax.swing.JDialog {
         getContentPane().add(textBox_etiquette);
         textBox_etiquette.setBounds(100, 45, 150, 21);
 
-        jComboBox_Cdt.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Proba=", "Age >" }));
-        getContentPane().add(jComboBox_Cdt);
-        jComboBox_Cdt.setBounds(10, 80, 80, 20);
+        jLabelProba.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        jLabelProba.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelProba.setText("Probabilite =");
+        getContentPane().add(jLabelProba);
+        jLabelProba.setBounds(10, 80, 90, 20);
 
-        setSize(new java.awt.Dimension(524, 372));
+        jLabelAge.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        jLabelAge.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelAge.setText("Age >=");
+        getContentPane().add(jLabelAge);
+        jLabelAge.setBounds(10, 110, 90, 20);
+
+        textBox_age.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        textBox_age.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        textBox_age.setText("0"); // NOI18N
+        textBox_age.setToolTipText("Must be between 0 (never) and 1 (always)");
+        getContentPane().add(textBox_age);
+        textBox_age.setBounds(100, 110, 150, 21);
+
+        setSize(new java.awt.Dimension(524, 440));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -707,14 +730,21 @@ public class WndEditReaction extends javax.swing.JDialog {
             _r3._produits.add(str);
         }
 
-        // Valeur d k
+        // Valeur de k
         try {
             _r3.set_k(Double.parseDouble(textBox_k.getText()));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
             _r3.set_k(0);
         }
-
+        // Valeur de age
+        try {
+            _r3.set_age(Double.parseDouble(textBox_age.getText()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+            _r3.set_age(0);
+        }
+        
         String etiq = textBox_etiquette.getText();
         _r3.setEtiquettes(etiq);
 
@@ -988,12 +1018,13 @@ public class WndEditReaction extends javax.swing.JDialog {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox_Cdt;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabelAge;
     private javax.swing.JLabel jLabelComportement;
     private javax.swing.JLabel jLabelDescription;
     private javax.swing.JLabel jLabelNom;
     private javax.swing.JLabel jLabelPositions;
+    private javax.swing.JLabel jLabelProba;
     private javax.swing.JLabel jLabelProduits;
     private javax.swing.JLabel jLabelReactifs;
     public javax.swing.JPanel jPanel_cplx;
@@ -1002,6 +1033,7 @@ public class WndEditReaction extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextArea jTextDescription;
+    private javax.swing.JTextField textBox_age;
     private javax.swing.JTextField textBox_etiquette;
     private javax.swing.JTextField textBox_k;
     // End of variables declaration//GEN-END:variables

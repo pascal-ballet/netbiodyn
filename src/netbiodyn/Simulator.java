@@ -177,14 +177,34 @@ public class Simulator {
                     }
                 }
 
-                // On effectue la transformation si tjs possible
+                // On effectue la reaction si tjs possible
                 if (possible == true) {
                     // on ajoute les produits dans la matrice future
                     for (int i = 0; i < rp._produits_noms.size(); i++) {
+                        String nom = rp._produits_noms.get(i);
                         int x = rp._produits_pos.get(i).x;
                         int y = rp._produits_pos.get(i).y;
                         int z = rp._produits_pos.get(i).z;
-                        this.AjouterFuturReaxel(x, y, z, rp._produits_noms.get(i));
+                        // Choix de l'age (pour la continuite entre 2 reactifs et produits)
+                        double age = 0;
+                        InstanceReaxel reac2=null, reac1=null, reac0=null;
+                        if(rp._reactifs_pos.size() > 2) {
+                            reac2 = instances.getFast(rp._reactifs_pos.get(2).x, rp._reactifs_pos.get(2).y, rp._reactifs_pos.get(2).z);
+                            if(nom.equals(reac2.getNom()))
+                                age = reac2.age;// peu prioritaire
+                        }
+                        if(rp._reactifs_pos.size() > 1) {
+                            reac1 = instances.getFast(rp._reactifs_pos.get(1).x, rp._reactifs_pos.get(1).y, rp._reactifs_pos.get(1).z);
+                            if(nom.equals(reac1.getNom()))
+                                age = reac1.age;// moyen prioritaire
+                        }
+                        if(rp._reactifs_pos.size() > 0) {
+                            reac0 = instances.getFast(rp._reactifs_pos.get(0).x, rp._reactifs_pos.get(0).y, rp._reactifs_pos.get(0).z);
+                            if(nom.equals(reac0.getNom()))
+                                age = reac0.age;// tres prioritaire
+                        }
+                        
+                        this.AjouterFuturReaxel(x, y, z, nom, age);
                     }
 
                     // on enleve les reactifs de la matrice courante pour eviter qu'il ne reagissent a nouveau (conservation E et matiere)
@@ -202,6 +222,9 @@ public class Simulator {
         }
 
         // Fin de l'application effective des reactions
+        // Les agents qui n'ont pas reagit voit leur age augmente tout de meme
+        for(int a=0; a<instances.getList().size(); a++)
+            instances.getList().get(a).age++;
         // On verse les réaxels qui n'ont pas réagit dans la liste future et dans la matrice future
         instancesFutur.setMatrixAndList(instances.getList());
 
@@ -350,17 +373,18 @@ public class Simulator {
         }
     }
 
-    private boolean AjouterFuturReaxel(int i, int j, int k, String etiquette) {
+    private boolean AjouterFuturReaxel(int i, int j, int k, String etiquette, double age) {
         boolean changed = false;
-        ArrayList<Entity> reaxels = model.getListManipulesNoeuds();
-        for (int n = 0; n < reaxels.size(); n++) {
-            if (reaxels.get(n).TrouveEtiquette(etiquette) >= 0) {
-                InstanceReaxel r = InstanceReaxel.CreerReaxel(reaxels.get(n));
+        ArrayList<Entity> lst_reaxels = model.getListManipulesNoeuds();
+        for (int n = 0; n < lst_reaxels.size(); n++) {
+            if (lst_reaxels.get(n).TrouveEtiquette(etiquette) >= 0) {
+                InstanceReaxel r = InstanceReaxel.CreerReaxel(lst_reaxels.get(n));
                 r.setX(i);
                 r.setY(j);
                 r.setZ(k);
+                r.age = age+1;
                 changed = instancesFutur.addReaxel(r);
-                n = reaxels.size();
+                n = lst_reaxels.size();
             }
         }
         return changed;

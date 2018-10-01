@@ -49,6 +49,8 @@ public class InstanceReaxel extends InstanceSimplexel implements Cloneable{
     public boolean mvt_devant = false;
     public boolean mvt_derriere = false;    
     
+    public double age = 0.0;
+    
     private boolean _selectionne = false;
 
     private String _nom;
@@ -74,6 +76,7 @@ public class InstanceReaxel extends InstanceSimplexel implements Cloneable{
         clone._x=_x;
         clone._y=_y;
         clone._z=_z;
+        clone.age = age;
         return clone;
     }
     

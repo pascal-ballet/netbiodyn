@@ -299,6 +299,7 @@ public class InstanceReaction {
 
     public ArrayList<String> _produits_noms = new ArrayList<String>();
     public ArrayList<UtilPoint3D> _produits_pos = new ArrayList<UtilPoint3D>();
+    public ArrayList<UtilPoint3D> _agents_age = new ArrayList<UtilPoint3D>();
 }
 /*
 // Exemple 1 (membrane : disloque)
