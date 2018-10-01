@@ -1,0 +1,34 @@
+10
+
+dir
+2
+svn://virtulab.univ-brest.fr/netbiodyn/NetBioDyn/src
+svn://virtulab.univ-brest.fr/netbiodyn
+
+
+
+2016-11-22T09:00:24.991123Z
+2
+root
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+7d3115ad-34e1-4a04-9b26-c8a336f5d13b
+
+Images
+dir
+
+netbiodyn
+dir
+
