@@ -36,6 +36,7 @@ import java.util.ArrayList;
 public class Entity extends ProtoSimplexel implements Externalizable {
 
     private static final long serialVersionUID = 1L;    
+
     /**
      * Creates new form Entite
      */
@@ -60,6 +61,14 @@ public class Entity extends ProtoSimplexel implements Externalizable {
             reaxel._str_image_deco = _str_image_deco;
             reaxel.BackgroundImage=BackgroundImage;
         }
+        reaxel.mvt_proba = mvt_proba;
+        reaxel.mvt_gauche = mvt_gauche;
+        reaxel.mvt_droite = mvt_droite;
+        reaxel.mvt_haut = mvt_haut;
+        reaxel.mvt_bas = mvt_bas;
+        reaxel.mvt_devant = mvt_devant;
+        reaxel.mvt_derriere = mvt_derriere;
+        
         return reaxel;
     }
 
@@ -125,10 +134,20 @@ public class Entity extends ProtoSimplexel implements Externalizable {
         out.writeInt(_forme);
         out.writeInt(_taille);
         out.writeUTF(_str_image_deco);
+
+        out.writeDouble(mvt_proba);
+        out.writeBoolean(mvt_gauche);
+        out.writeBoolean(mvt_droite);
+        out.writeBoolean(mvt_haut);
+        out.writeBoolean(mvt_bas);
+        out.writeBoolean(mvt_devant);
+        out.writeBoolean(mvt_derriere);
+        
     }
 
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        
         setEtiquettes(in.readUTF());
         Couleur=(Color)in.readObject();
         _visibleDansPanel=in.readBoolean();
@@ -138,6 +157,15 @@ public class Entity extends ProtoSimplexel implements Externalizable {
         _taille=in.readInt();        
         _str_image_deco=in.readUTF();
         invisible=false;
+        
+        // Depuis la version 2018
+        mvt_proba = in.readDouble();
+        mvt_gauche = in.readBoolean();
+        mvt_droite = in.readBoolean();
+        mvt_haut = in.readBoolean();
+        mvt_bas = in.readBoolean();
+        mvt_devant = in.readBoolean();
+        mvt_derriere = in.readBoolean();
     }
 
 }

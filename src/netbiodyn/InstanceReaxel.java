@@ -41,6 +41,14 @@ public class InstanceReaxel extends InstanceSimplexel implements Cloneable{
     private double _demie_vie = 0;
     private boolean invisible=false;
 
+    public double mvt_proba = 0.0;
+    public boolean mvt_gauche = true;
+    public boolean mvt_droite = true;
+    public boolean mvt_haut = true;
+    public boolean mvt_bas = true;
+    public boolean mvt_devant = false;
+    public boolean mvt_derriere = false;    
+    
     private boolean _selectionne = false;
 
     private String _nom;
@@ -79,6 +87,13 @@ public class InstanceReaxel extends InstanceSimplexel implements Cloneable{
         r._image = cli.BackgroundImage;
         r._vidable = cli.Vidable;
         r.invisible=cli.isInvisible();
+        r.mvt_proba = cli.mvt_proba;
+        r.mvt_gauche = cli.mvt_gauche;
+        r.mvt_droite = cli.mvt_droite;
+        r.mvt_haut = cli.mvt_haut;
+        r.mvt_bas = cli.mvt_bas;
+        r.mvt_devant = cli.mvt_devant;
+        r.mvt_derriere = cli.mvt_derriere;        
         return r;
     }
     

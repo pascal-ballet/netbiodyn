@@ -291,9 +291,9 @@ public class WndEditReaction extends javax.swing.JDialog {
         };
         String[] titreColonnes = new String[1];
         if (Lang.getInstance().getLang().equals("FR")) {
-            titreColonnes[0] = "Entites";
+            titreColonnes[0] = "Agents";
         } else {
-            titreColonnes[0] = "Entities";
+            titreColonnes[0] = "Agents";
         }
         DefaultTableModel m_reactifs = new DefaultTableModel(donnees_reactifs, titreColonnes);
         dataGridView_reactifs.setModel(m_reactifs);

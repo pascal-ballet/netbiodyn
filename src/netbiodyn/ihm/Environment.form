@@ -112,7 +112,7 @@
           <Font name="Tahoma" size="9" style="0"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Version 02/2016 - University of Brest - Lab STICC- IHSEV"/>
+        <Property name="text" type="java.lang.String" value="Version 10/2018 - University of Brest - LaTIM &amp; Lab STICC"/>
       </Properties>
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="version 20/05/2012 - Universite de Brest - Lab-STICC- Equipe IHSEV"/>
@@ -158,6 +158,7 @@
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="bouton_langMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bouton_langActionPerformed"/>
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -260,7 +261,7 @@
               <Color blue="99" green="0" red="66" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Entites"/>
+            <Property name="text" type="java.lang.String" value="Agents"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonAddEntity">

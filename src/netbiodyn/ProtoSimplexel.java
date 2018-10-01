@@ -56,6 +56,14 @@ public class ProtoSimplexel extends ProtoBioDyn {
     public boolean Vidable = true;
     protected boolean invisible=false;
 
+    public double mvt_proba = 0.0;
+    public boolean mvt_gauche = true;
+    public boolean mvt_droite = true;
+    public boolean mvt_haut = true;
+    public boolean mvt_bas = true;
+    public boolean mvt_devant = false;
+    public boolean mvt_derriere = false;
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JTextArea _description;
     public javax.swing.JScrollPane jScrollPane2;

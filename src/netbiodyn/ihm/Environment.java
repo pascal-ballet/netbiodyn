@@ -486,7 +486,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
 
         jLabel_version.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         jLabel_version.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel_version.setText("Version 02/2016 - University of Brest - Lab STICC- IHSEV");
+        jLabel_version.setText("Version 10/2018 - University of Brest - LaTIM & Lab STICC");
         add(jLabel_version);
         jLabel_version.setBounds(600, 10, 270, 16);
         jLabel_version.getAccessibleContext().setAccessibleName("version 20/05/2012 - Universite de Brest - Lab-STICC- Equipe IHSEV");
@@ -508,6 +508,11 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                 bouton_langMouseClicked(evt);
             }
         });
+        bouton_lang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bouton_langActionPerformed(evt);
+            }
+        });
         add(bouton_lang);
         bouton_lang.setBounds(240, 10, 70, 20);
 
@@ -519,7 +524,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         jLabelEntites.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabelEntites.setForeground(new java.awt.Color(102, 0, 153));
         jLabelEntites.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelEntites.setText("Entites");
+        jLabelEntites.setText("Agents");
 
         jButtonAddEntity.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jButtonAddEntity.setText("+");
@@ -1554,7 +1559,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
             }
             bouton_lang.setText("Français");
             jLabelSpeed.setText("Speed");
-            jLabelEntites.setText("Entities");
+            jLabelEntites.setText("Agents");
             jLabelComportements.setText("Behaviours");
             jLabelEnvironnement.setText("Environment");
             jLabelSimulateur.setText("Simulator");
@@ -1575,7 +1580,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                 Ajustement.setText("Auto-ajustement des paramètres");
             }
             jLabelSpeed.setText("Vitesse");
-            jLabelEntites.setText("Entités");
+            jLabelEntites.setText("Agents");
             jLabelComportements.setText("Comportements");
             jLabelEnvironnement.setText("Environnement");
             jLabelSimulateur.setText("Simulateur");
@@ -1836,6 +1841,10 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         _mouse_zoom_down = false;
     }//GEN-LAST:event_pictureBox_EnvMouseWheelMoved
 
+    private void bouton_langActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bouton_langActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bouton_langActionPerformed
+
     public void setZLabel() {
         jLabelZ.setText("Z=" + jSliderZ.getValue());
     }
@@ -1868,7 +1877,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
             } else {
                 Entity n = getReaxelByName(r.getNom());
                 try {
-                    JOptionPane.showMessageDialog(this, "Entite :" + r.getNom() + "\n" + n.getDescription().getDocument().getText(0, n.getDescription().getDocument().getLength()));
+                    JOptionPane.showMessageDialog(this, "Agent :" + r.getNom() + "\n" + n.getDescription().getDocument().getText(0, n.getDescription().getDocument().getLength()));
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, "Dans afficherInformations : " + ex);
                 }

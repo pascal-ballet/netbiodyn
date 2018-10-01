@@ -32,6 +32,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import netbiodyn.Behavior;
 import netbiodyn.Entity;
 import netbiodyn.util.Lang;
@@ -67,7 +68,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
         // Set language
         if (Lang.getInstance().getLang().equals("FR")) {
             jLabelNom.setText("Nom");
-            jLabelEntite.setText("Entité");
+            jLabelEntite.setText("Agent");
             jLabelVie.setText("1/2 Vie (0=infini)");
             jLabelApp.setText("Apparence");
             jCheckBox_vidable.setText("Vidable");
@@ -82,7 +83,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
 
         } else {
             jLabelNom.setText("Name");
-            jLabelEntite.setText("Entity");
+            jLabelEntite.setText("Agent");
             jLabelVie.setText("1/2 Life (0=infinite)");
             jLabelApp.setText("Appearance");
             jCheckBox_vidable.setText("Cleanable");
@@ -107,7 +108,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
         _old_color = entity.Couleur;
 
         textBox1.setText(entity._etiquettes);
-        textBox_demie_vie.setText(((Double) entity.DemieVie).toString());
+        textBox_mvt.setText(((Double) entity.DemieVie).toString());
 
         // Apparence
         buttonCouleur.setBackground(entity.Couleur);
@@ -117,6 +118,14 @@ public class WndEditNoeud extends javax.swing.JDialog {
         jCheckBox_vidable.setSelected(entity.Vidable);
         jCheckBox_invisible.setSelected(entity.isInvisible());
         //this.setSize(new Dimension(WndEditEntite.WIDTH,WndEditEntite.HEIGHT+320));
+        textBox_mvt.setText(((Double) entity.mvt_proba).toString());
+        jToggleButtonLeft.setSelected(!(entity.mvt_gauche));        
+        jToggleButtonRight.setSelected(!(entity.mvt_droite));        
+        jToggleButtonUp.setSelected(!(entity.mvt_haut));        
+        jToggleButtonDown.setSelected(!(entity.mvt_bas));        
+        jToggleButtonFront.setSelected(!(entity.mvt_devant));        
+        jToggleButtonBack.setSelected(!(entity.mvt_derriere));        
+        
     }
 
     public Entity getCli() {
@@ -143,7 +152,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
         jLabelVie = new javax.swing.JLabel();
         jLabelApp = new javax.swing.JLabel();
         textBox1 = new javax.swing.JTextField();
-        textBox_demie_vie = new javax.swing.JTextField();
+        textBox_mvt = new javax.swing.JTextField();
         comboBox_formes = new javax.swing.JComboBox();
         buttonCouleur = new javax.swing.JButton();
         jCheckBox_invisible = new javax.swing.JCheckBox();
@@ -155,9 +164,18 @@ public class WndEditNoeud extends javax.swing.JDialog {
         button_aide_description = new javax.swing.JButton();
         jLabelEntite = new javax.swing.JLabel();
         richTextBox_description = new javax.swing.JTextArea();
-        jScrollPane1 = new javax.swing.JScrollPane();
         jLabel19 = new javax.swing.JLabel();
         jCheckBox_vidable = new javax.swing.JCheckBox();
+        jLabelVie1 = new javax.swing.JLabel();
+        textBox_demie_vie1 = new javax.swing.JTextField();
+        jLabelVie2 = new javax.swing.JLabel();
+        jLabelVie3 = new javax.swing.JLabel();
+        jToggleButtonRight = new javax.swing.JToggleButton();
+        jToggleButtonLeft = new javax.swing.JToggleButton();
+        jToggleButtonUp = new javax.swing.JToggleButton();
+        jToggleButtonDown = new javax.swing.JToggleButton();
+        jToggleButtonFront = new javax.swing.JToggleButton();
+        jToggleButtonBack = new javax.swing.JToggleButton();
 
         setAlwaysOnTop(true);
         setBackground(new java.awt.Color(204, 204, 255));
@@ -175,14 +193,15 @@ public class WndEditNoeud extends javax.swing.JDialog {
         jLabelNom.setBounds(10, 40, 50, 15);
 
         jLabelVie.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
-        jLabelVie.setText("Demi-vie (0=infinie)");
+        jLabelVie.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelVie.setText("Directions=");
         getContentPane().add(jLabelVie);
-        jLabelVie.setBounds(10, 70, 92, 15);
+        jLabelVie.setBounds(200, 100, 80, 15);
 
         jLabelApp.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         jLabelApp.setText("Apparence");
         getContentPane().add(jLabelApp);
-        jLabelApp.setBounds(10, 100, 70, 15);
+        jLabelApp.setBounds(10, 200, 70, 15);
 
         textBox1.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         textBox1.setText("nom");
@@ -194,15 +213,15 @@ public class WndEditNoeud extends javax.swing.JDialog {
         getContentPane().add(textBox1);
         textBox1.setBounds(60, 40, 220, 20);
 
-        textBox_demie_vie.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
-        textBox_demie_vie.setText("0");
-        getContentPane().add(textBox_demie_vie);
-        textBox_demie_vie.setBounds(150, 70, 130, 20);
+        textBox_mvt.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        textBox_mvt.setText("0");
+        getContentPane().add(textBox_mvt);
+        textBox_mvt.setBounds(140, 100, 50, 20);
 
         comboBox_formes.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         comboBox_formes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Disque", "Carre", "Triangle", "Losange", "Etoile", "Pois", "Bruit" }));
         getContentPane().add(comboBox_formes);
-        comboBox_formes.setBounds(160, 100, 120, 21);
+        comboBox_formes.setBounds(160, 200, 120, 21);
 
         buttonCouleur.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         buttonCouleur.setText("Couleur");
@@ -212,7 +231,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
             }
         });
         getContentPane().add(buttonCouleur);
-        buttonCouleur.setBounds(80, 100, 80, 23);
+        buttonCouleur.setBounds(80, 200, 80, 23);
 
         jCheckBox_invisible.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         jCheckBox_invisible.setText("Invisible");
@@ -221,7 +240,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
         jCheckBox_invisible.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jCheckBox_invisible.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         getContentPane().add(jCheckBox_invisible);
-        jCheckBox_invisible.setBounds(180, 160, 110, 20);
+        jCheckBox_invisible.setBounds(180, 260, 110, 20);
 
         button_img.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         button_img.setText("Image");
@@ -231,7 +250,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
             }
         });
         getContentPane().add(button_img);
-        button_img.setBounds(80, 130, 80, 23);
+        button_img.setBounds(80, 230, 80, 23);
 
         button_pas_image.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         button_pas_image.setText("Sans image");
@@ -241,7 +260,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
             }
         });
         getContentPane().add(button_pas_image);
-        button_pas_image.setBounds(160, 130, 120, 23);
+        button_pas_image.setBounds(160, 230, 120, 23);
 
         button_OK.setBackground(new java.awt.Color(153, 255, 153));
         button_OK.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
@@ -257,7 +276,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
             }
         });
         getContentPane().add(button_OK);
-        button_OK.setBounds(0, 180, 280, 23);
+        button_OK.setBounds(0, 280, 280, 23);
 
         button_CANCEL.setBackground(new java.awt.Color(255, 153, 153));
         button_CANCEL.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
@@ -273,12 +292,12 @@ public class WndEditNoeud extends javax.swing.JDialog {
             }
         });
         getContentPane().add(button_CANCEL);
-        button_CANCEL.setBounds(293, 180, 210, 23);
+        button_CANCEL.setBounds(300, 280, 210, 23);
 
         jLabelDescr.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
-        jLabelDescr.setText("Description de l'entite");
+        jLabelDescr.setText("Description de l'agent");
         getContentPane().add(jLabelDescr);
-        jLabelDescr.setBounds(300, 40, 141, 15);
+        jLabelDescr.setBounds(300, 170, 141, 15);
 
         button_aide_description.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         button_aide_description.setText("?");
@@ -287,13 +306,18 @@ public class WndEditNoeud extends javax.swing.JDialog {
                 button_aide_descriptionMouseClicked(evt);
             }
         });
+        button_aide_description.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_aide_descriptionActionPerformed(evt);
+            }
+        });
         getContentPane().add(button_aide_description);
         button_aide_description.setBounds(447, 33, 40, 23);
 
         jLabelEntite.setBackground(new java.awt.Color(153, 153, 255));
         jLabelEntite.setFont(new java.awt.Font("DejaVu Sans", 1, 24)); // NOI18N
         jLabelEntite.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelEntite.setText("Entite");
+        jLabelEntite.setText("Agent");
         getContentPane().add(jLabelEntite);
         jLabelEntite.setBounds(21, -2, 460, 34);
 
@@ -302,9 +326,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
         richTextBox_description.setLineWrap(true);
         richTextBox_description.setRows(5);
         getContentPane().add(richTextBox_description);
-        richTextBox_description.setBounds(300, 69, 190, 100);
-        getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(300, 71, 2, 2);
+        richTextBox_description.setBounds(300, 190, 190, 79);
 
         jLabel19.setBackground(new java.awt.Color(153, 153, 255));
         jLabel19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -320,9 +342,104 @@ public class WndEditNoeud extends javax.swing.JDialog {
         jCheckBox_vidable.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jCheckBox_vidable.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         getContentPane().add(jCheckBox_vidable);
-        jCheckBox_vidable.setBounds(10, 160, 110, 20);
+        jCheckBox_vidable.setBounds(10, 260, 110, 20);
 
-        setSize(new java.awt.Dimension(533, 253));
+        jLabelVie1.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        jLabelVie1.setText("Demi-vie (0=infinie)");
+        getContentPane().add(jLabelVie1);
+        jLabelVie1.setBounds(10, 170, 92, 15);
+
+        textBox_demie_vie1.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        textBox_demie_vie1.setText("0");
+        getContentPane().add(textBox_demie_vie1);
+        textBox_demie_vie1.setBounds(150, 170, 130, 20);
+
+        jLabelVie2.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        jLabelVie2.setText("Deplacement");
+        getContentPane().add(jLabelVie2);
+        jLabelVie2.setBounds(10, 100, 62, 15);
+
+        jLabelVie3.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        jLabelVie3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelVie3.setText("Proba=");
+        getContentPane().add(jLabelVie3);
+        jLabelVie3.setBounds(90, 100, 50, 15);
+
+        jToggleButtonRight.setBackground(new java.awt.Color(102, 255, 102));
+        jToggleButtonRight.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jToggleButtonRight.setText(">");
+        jToggleButtonRight.setToolTipText("Droite");
+        jToggleButtonRight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonRightActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jToggleButtonRight);
+        jToggleButtonRight.setBounds(350, 100, 50, 23);
+
+        jToggleButtonLeft.setBackground(new java.awt.Color(102, 255, 102));
+        jToggleButtonLeft.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jToggleButtonLeft.setText("<");
+        jToggleButtonLeft.setToolTipText("Gauche");
+        jToggleButtonLeft.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonLeftActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jToggleButtonLeft);
+        jToggleButtonLeft.setBounds(290, 100, 50, 23);
+
+        jToggleButtonUp.setBackground(new java.awt.Color(102, 255, 102));
+        jToggleButtonUp.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jToggleButtonUp.setText("^");
+        jToggleButtonUp.setToolTipText("Haut");
+        jToggleButtonUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonUpActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jToggleButtonUp);
+        jToggleButtonUp.setBounds(320, 70, 50, 23);
+
+        jToggleButtonDown.setBackground(new java.awt.Color(102, 255, 102));
+        jToggleButtonDown.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jToggleButtonDown.setText("v");
+        jToggleButtonDown.setToolTipText("Bas");
+        jToggleButtonDown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonDownActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jToggleButtonDown);
+        jToggleButtonDown.setBounds(320, 130, 50, 23);
+
+        jToggleButtonFront.setBackground(new java.awt.Color(102, 255, 102));
+        jToggleButtonFront.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jToggleButtonFront.setSelected(true);
+        jToggleButtonFront.setText("O");
+        jToggleButtonFront.setToolTipText("Devant");
+        jToggleButtonFront.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonFrontActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jToggleButtonFront);
+        jToggleButtonFront.setBounds(270, 70, 50, 23);
+
+        jToggleButtonBack.setBackground(new java.awt.Color(102, 255, 102));
+        jToggleButtonBack.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jToggleButtonBack.setSelected(true);
+        jToggleButtonBack.setText("X");
+        jToggleButtonBack.setToolTipText("Derriere");
+        jToggleButtonBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonBackActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jToggleButtonBack);
+        jToggleButtonBack.setBounds(370, 130, 50, 23);
+
+        setSize(new java.awt.Dimension(533, 373));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -489,15 +606,26 @@ public class WndEditNoeud extends javax.swing.JDialog {
         entity.Couleur = buttonCouleur.getBackground();
         entity._forme = comboBox_formes.getSelectedIndex();
 
+        // Demi-vie
         try {
-            entity.DemieVie = Double.parseDouble(textBox_demie_vie.getText());
+            entity.DemieVie = Double.parseDouble(textBox_mvt.getText());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
             entity.DemieVie = 0;
         }
 
+        // Vidable
         entity.Vidable = jCheckBox_vidable.isSelected();
+        // Invisible
         entity.setInvisible(jCheckBox_invisible.isSelected());
+        // Deplacement
+        entity.mvt_proba = Double.parseDouble(textBox_mvt.getText());
+        entity.mvt_gauche   = !jToggleButtonLeft.isSelected();
+        entity.mvt_droite   = !jToggleButtonRight.isSelected();
+        entity.mvt_haut     = !jToggleButtonUp.isSelected();
+        entity.mvt_bas      = !jToggleButtonDown.isSelected();
+        entity.mvt_devant   = !jToggleButtonFront.isSelected();
+        entity.mvt_derriere = !jToggleButtonBack.isSelected();
 
         this.DialogResult = new String("OK");
         setVisible(false);
@@ -514,6 +642,34 @@ public class WndEditNoeud extends javax.swing.JDialog {
 
         //if()
     }//GEN-LAST:event_formKeyPressed
+
+    private void button_aide_descriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_aide_descriptionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_button_aide_descriptionActionPerformed
+
+    private void jToggleButtonRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonRightActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jToggleButtonRightActionPerformed
+
+    private void jToggleButtonLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonLeftActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jToggleButtonLeftActionPerformed
+
+    private void jToggleButtonUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonUpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jToggleButtonUpActionPerformed
+
+    private void jToggleButtonDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonDownActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jToggleButtonDownActionPerformed
+
+    private void jToggleButtonFrontActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonFrontActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jToggleButtonFrontActionPerformed
+
+    private void jToggleButtonBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonBackActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jToggleButtonBackActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -532,10 +688,19 @@ public class WndEditNoeud extends javax.swing.JDialog {
     private javax.swing.JLabel jLabelEntite;
     private javax.swing.JLabel jLabelNom;
     private javax.swing.JLabel jLabelVie;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabelVie1;
+    private javax.swing.JLabel jLabelVie2;
+    private javax.swing.JLabel jLabelVie3;
+    private javax.swing.JToggleButton jToggleButtonBack;
+    private javax.swing.JToggleButton jToggleButtonDown;
+    private javax.swing.JToggleButton jToggleButtonFront;
+    private javax.swing.JToggleButton jToggleButtonLeft;
+    private javax.swing.JToggleButton jToggleButtonRight;
+    private javax.swing.JToggleButton jToggleButtonUp;
     private javax.swing.JTextArea richTextBox_description;
     private javax.swing.JTextField textBox1;
-    private javax.swing.JTextField textBox_demie_vie;
+    private javax.swing.JTextField textBox_demie_vie1;
+    private javax.swing.JTextField textBox_mvt;
     // End of variables declaration//GEN-END:variables
 
 }
