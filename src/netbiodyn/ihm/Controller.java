@@ -250,7 +250,26 @@ public class Controller {
             }
         }
     }
-
+    public void addBehaviourFromAgentMouvement(Entity e) {
+        WndEditReaction w = new WndEditReaction(model.getListManipulesNoeuds(), model.getListManipulesReactions());
+        w.WndCliEditReaction3_Load(null);
+        w.setVisible(false);
+        w._r3.set_k(e.mvt_proba);
+        w._r3._reactifs.add(e._etiquettes);
+        w._r3._reactifs.add("0");
+        w._r3._produits.add("0");
+        w._r3._produits.add(e._etiquettes);
+        // Positions possible du deplacement
+        String positions_seconde_ligne = w._r3._positions.get(1); // _positions: 0=no, 1=yes, 2=impossible. Defaut = "212101210" = "0Centre1Droite2Impo3Haut4Devant5Gauche6Impo7Bas8Derriere"        
+        if(e.mvt_droite == true)    positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 1, '1'); else positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 1, '0');
+        if(e.mvt_haut == true)      positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 3, '1'); else positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 3, '0');
+        if(e.mvt_devant == true)    positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 4, '1'); else positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 4, '0');
+        if(e.mvt_gauche == true)    positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 5, '1'); else positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 5, '0');
+        if(e.mvt_bas == true)       positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 7, '1'); else positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 7, '0');
+        if(e.mvt_derriere == true)  positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 8, '1'); else positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 8, '0');
+        w._r3._positions.set(1, positions_seconde_ligne);
+        model.addMoteurReaction(w._r3);
+    }
     /**
      * Change the probability of the Behaviour name by value. Called by
      * Environment
@@ -822,6 +841,14 @@ public class Controller {
             env.unpause_simulation();
             simulator.setPause(false);
         } else { // On est en STOP et on fait PLAY
+            // Ajouts des comportements de mouvement des agents
+            for(int a=0; a < model.getListManipulesNoeuds().size(); a++) {
+                Entity e = model.getListManipulesNoeuds().get(a);
+                if(e.mvt_proba > 0.0) {
+                    addBehaviourFromAgentMouvement(e);
+                }
+            }
+            // Lancement de la simulation
             env.simulationStarted();
             simulator.start();
         }
@@ -932,6 +959,15 @@ public class Controller {
      */
     public void stopWithoutAsking() {
         if (simulator.getTime() != 0) {
+            
+            // Suppression des comportements de mouvement des agents
+            for(int r=model.getListManipulesReactions().size()-1; r >= 0; r--) {
+                Behavior b = model.getListManipulesReactions().get(r);
+                if(b.getEtiquettes().equals("")) { // Un comportement est sans nom quand il a ete cree automatiquement pour les deplacements
+                    model.getListManipulesReactions().remove(r);
+                }
+            }
+            // Arret de la simulation
             env.stopSimulation();
             simulator.stop();
         }

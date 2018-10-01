@@ -41,7 +41,7 @@ public class InstanceReaxel extends InstanceSimplexel implements Cloneable{
     private double _demie_vie = 0;
     private boolean invisible=false;
 
-    public double mvt_proba = 0.0;
+    public double mvt_proba = 1.0;
     public boolean mvt_gauche = true;
     public boolean mvt_droite = true;
     public boolean mvt_haut = true;

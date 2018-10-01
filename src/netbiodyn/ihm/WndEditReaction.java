@@ -263,7 +263,7 @@ public class WndEditReaction extends javax.swing.JDialog {
         if (Lang.getInstance().getLang().equals("FR")) {
             jLabelNom.setText("Nom");
             jLabelComportement.setText("Comportement");
-            jLabelProba.setText("Probabilité");
+            //jLabelProba.setText("Probabilité");
             jLabelPositions.setText("Positions");
             jLabelProduits.setText("Produits");
             button_annuler.setText("Annuler");
@@ -271,7 +271,7 @@ public class WndEditReaction extends javax.swing.JDialog {
         } else {
             jLabelNom.setText("Name");
             jLabelComportement.setText("Behaviour");
-            jLabelProba.setText("Probability");
+            //jLabelProba.setText("Probability");
             jLabelPositions.setText("Positions");
             jLabelProduits.setText("Products");
             button_annuler.setText("Cancel");
@@ -377,7 +377,6 @@ public class WndEditReaction extends javax.swing.JDialog {
 
         jScrollPane5 = new javax.swing.JScrollPane();
         jTextDescription = new javax.swing.JTextArea();
-        jLabelProba = new javax.swing.JLabel();
         jLabelPositions = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         dataGridView_reactifs = new javax.swing.JTable();
@@ -398,16 +397,17 @@ public class WndEditReaction extends javax.swing.JDialog {
         jLabel19 = new javax.swing.JLabel();
         jLabelDescription = new javax.swing.JLabel();
         textBox_etiquette = new javax.swing.JTextField();
+        jComboBox_Cdt = new javax.swing.JComboBox<>();
 
         setAlwaysOnTop(true);
         setBackground(new java.awt.Color(192, 189, 255));
         setResizable(false);
         addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                formMouseReleased(evt);
-            }
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 formMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                formMouseReleased(evt);
             }
         });
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -433,11 +433,6 @@ public class WndEditReaction extends javax.swing.JDialog {
 
         getContentPane().add(jScrollPane5);
         jScrollPane5.setBounds(320, 40, 170, 60);
-
-        jLabelProba.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
-        jLabelProba.setText("Probabilite ="); // NOI18N
-        getContentPane().add(jLabelProba);
-        jLabelProba.setBounds(10, 80, 90, 15);
 
         jLabelPositions.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         jLabelPositions.setText("Positions"); // NOI18N
@@ -515,7 +510,7 @@ public class WndEditReaction extends javax.swing.JDialog {
         textBox_k.setText("1"); // NOI18N
         textBox_k.setToolTipText("Must be between 0 (never) and 1 (always)");
         getContentPane().add(textBox_k);
-        textBox_k.setBounds(100, 75, 50, 21);
+        textBox_k.setBounds(100, 80, 50, 21);
 
         jLabelComportement.setFont(new java.awt.Font("DejaVu Sans", 1, 24)); // NOI18N
         jLabelComportement.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -630,6 +625,10 @@ public class WndEditReaction extends javax.swing.JDialog {
         });
         getContentPane().add(textBox_etiquette);
         textBox_etiquette.setBounds(100, 45, 150, 21);
+
+        jComboBox_Cdt.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Proba=", "Age >" }));
+        getContentPane().add(jComboBox_Cdt);
+        jComboBox_Cdt.setBounds(10, 80, 80, 20);
 
         setSize(new java.awt.Dimension(524, 372));
         setLocationRelativeTo(null);
@@ -989,12 +988,12 @@ public class WndEditReaction extends javax.swing.JDialog {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboBox_Cdt;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabelComportement;
     private javax.swing.JLabel jLabelDescription;
     private javax.swing.JLabel jLabelNom;
     private javax.swing.JLabel jLabelPositions;
-    private javax.swing.JLabel jLabelProba;
     private javax.swing.JLabel jLabelProduits;
     private javax.swing.JLabel jLabelReactifs;
     public javax.swing.JPanel jPanel_cplx;

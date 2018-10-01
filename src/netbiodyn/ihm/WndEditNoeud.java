@@ -108,7 +108,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
         _old_color = entity.Couleur;
 
         textBox1.setText(entity._etiquettes);
-        textBox_mvt.setText(((Double) entity.DemieVie).toString());
+        textBox_mvt.setText(((Double) entity.mvt_proba).toString());
 
         // Apparence
         buttonCouleur.setBackground(entity.Couleur);
@@ -167,7 +167,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
         jLabel19 = new javax.swing.JLabel();
         jCheckBox_vidable = new javax.swing.JCheckBox();
         jLabelVie1 = new javax.swing.JLabel();
-        textBox_demie_vie1 = new javax.swing.JTextField();
+        textBox_demie_vie = new javax.swing.JTextField();
         jLabelVie2 = new javax.swing.JLabel();
         jLabelVie3 = new javax.swing.JLabel();
         jToggleButtonRight = new javax.swing.JToggleButton();
@@ -196,7 +196,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
         jLabelVie.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelVie.setText("Directions=");
         getContentPane().add(jLabelVie);
-        jLabelVie.setBounds(200, 100, 80, 15);
+        jLabelVie.setBounds(210, 100, 70, 15);
 
         jLabelApp.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         jLabelApp.setText("Apparence");
@@ -216,7 +216,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
         textBox_mvt.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         textBox_mvt.setText("0");
         getContentPane().add(textBox_mvt);
-        textBox_mvt.setBounds(140, 100, 50, 20);
+        textBox_mvt.setBounds(150, 100, 60, 20);
 
         comboBox_formes.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         comboBox_formes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Disque", "Carre", "Triangle", "Losange", "Etoile", "Pois", "Bruit" }));
@@ -349,10 +349,10 @@ public class WndEditNoeud extends javax.swing.JDialog {
         getContentPane().add(jLabelVie1);
         jLabelVie1.setBounds(10, 170, 92, 15);
 
-        textBox_demie_vie1.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
-        textBox_demie_vie1.setText("0");
-        getContentPane().add(textBox_demie_vie1);
-        textBox_demie_vie1.setBounds(150, 170, 130, 20);
+        textBox_demie_vie.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        textBox_demie_vie.setText("0");
+        getContentPane().add(textBox_demie_vie);
+        textBox_demie_vie.setBounds(150, 170, 130, 20);
 
         jLabelVie2.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         jLabelVie2.setText("Deplacement");
@@ -608,7 +608,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
 
         // Demi-vie
         try {
-            entity.DemieVie = Double.parseDouble(textBox_mvt.getText());
+            entity.DemieVie = Double.parseDouble(textBox_demie_vie.getText());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
             entity.DemieVie = 0;
@@ -699,7 +699,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
     private javax.swing.JToggleButton jToggleButtonUp;
     private javax.swing.JTextArea richTextBox_description;
     private javax.swing.JTextField textBox1;
-    private javax.swing.JTextField textBox_demie_vie1;
+    private javax.swing.JTextField textBox_demie_vie;
     private javax.swing.JTextField textBox_mvt;
     // End of variables declaration//GEN-END:variables
 

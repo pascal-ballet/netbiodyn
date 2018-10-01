@@ -56,7 +56,7 @@ public class ProtoSimplexel extends ProtoBioDyn {
     public boolean Vidable = true;
     protected boolean invisible=false;
 
-    public double mvt_proba = 0.0;
+    public double mvt_proba = 1.0;
     public boolean mvt_gauche = true;
     public boolean mvt_droite = true;
     public boolean mvt_haut = true;
