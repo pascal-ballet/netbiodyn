@@ -2600,7 +2600,20 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
 //        initLanguage();
         if (parameters.getImage() != null) {
             this._image_deco = parameters.getImage();
-            this.pictureBox_Env.setIcon(new ImageIcon(parameters.getImage()));
+            
+            // Invert vertically the image
+            for(int x=0; x<_image_deco.getWidth(); x++) {
+                for(int y=0; y<_image_deco.getHeight()/2; y++) {
+                    int p0 = _image_deco.getRGB(x, y);
+                    int p1 = _image_deco.getRGB(x, _image_deco.getHeight()-y-1);
+                    _image_deco.setRGB(x, y, p1);
+                    _image_deco.setRGB(x, _image_deco.getHeight()-y-1, p0);
+
+                }
+            }
+            
+            this.pictureBox_Env.setIcon(new ImageIcon(_image_deco));
+            pictureBox_Env.repaint();
         }
         this.jSliderSpeed.setValue(3);
         controller.changeSpeed(jSliderSpeed.getValue());

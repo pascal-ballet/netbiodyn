@@ -185,24 +185,31 @@ public class Simulator {
                         int x = rp._produits_pos.get(i).x;
                         int y = rp._produits_pos.get(i).y;
                         int z = rp._produits_pos.get(i).z;
-                        // Choix de l'age (pour la continuite entre 2 reactifs et produits)
-                        double age = 0;
-                        InstanceReaxel reac2=null, reac1=null, reac0=null;
-                        if(rp._reactifs_pos.size() > 2) {
-                            reac2 = instances.getFast(rp._reactifs_pos.get(2).x, rp._reactifs_pos.get(2).y, rp._reactifs_pos.get(2).z);
-                            if(nom.equals(reac2.getNom()))
-                                age = reac2.age;// peu prioritaire
-                        }
-                        if(rp._reactifs_pos.size() > 1) {
-                            reac1 = instances.getFast(rp._reactifs_pos.get(1).x, rp._reactifs_pos.get(1).y, rp._reactifs_pos.get(1).z);
-                            if(nom.equals(reac1.getNom()))
-                                age = reac1.age;// moyen prioritaire
-                        }
-                        if(rp._reactifs_pos.size() > 0) {
-                            reac0 = instances.getFast(rp._reactifs_pos.get(0).x, rp._reactifs_pos.get(0).y, rp._reactifs_pos.get(0).z);
-                            if(nom.equals(reac0.getNom()))
-                                age = reac0.age;// tres prioritaire
-                        }
+                            // Choix de l'age (pour la continuite entre 2 reactifs et produits)
+                            // Produits         Reactifs (du - au + prioritaire)
+                            //    0         <=     2   1   0  (le produit 0 prendra préférentiellement l'age du reactif 0 (le 1 voir le 2 en dernier choix - si c'est le meme type d'agent bien sur) )
+                            //    1         <=     0   2   1  (le produit 0 prendra préférentiellement l'age du reactif 0 (le 1 voir le 2 en dernier choix - si c'est le meme type d'agent bien sur) )
+                            //    2         <=     1   0   2  (le produit 0 prendra préférentiellement l'age du reactif 0 (le 1 voir le 2 en dernier choix - si c'est le meme type d'agent bien sur) )
+                            double age = 0;
+                            InstanceReaxel[] reac = new InstanceReaxel[3];
+                            if(rp._reactifs_pos.size() > (2+i)%3) {
+                                int rpos = (2+i)%3;
+                                reac[rpos] = instances.getFast(rp._reactifs_pos.get(rpos).x, rp._reactifs_pos.get(rpos).y, rp._reactifs_pos.get(rpos).z);
+                                if(nom.equals(reac[rpos].getNom()))
+                                    age = reac[rpos].age;// peu prioritaire
+                            }
+                            if(rp._reactifs_pos.size() > (1+i)%3) {
+                                int rpos = (1+i)%3;
+                                reac[rpos] = instances.getFast(rp._reactifs_pos.get(rpos).x, rp._reactifs_pos.get(rpos).y, rp._reactifs_pos.get(rpos).z);
+                                if(nom.equals(reac[rpos].getNom()))
+                                    age = reac[rpos].age;// moyen prioritaire
+                            }
+                            if(rp._reactifs_pos.size() > (0+i)%3) {
+                                int rpos = (0+i)%3;
+                                reac[rpos] = instances.getFast(rp._reactifs_pos.get(rpos).x, rp._reactifs_pos.get(rpos).y, rp._reactifs_pos.get(rpos).z);
+                                if(nom.equals(reac[rpos].getNom()))
+                                    age = reac[rpos].age;// tres prioritaire
+                            }
                         
                         this.AjouterFuturReaxel(x, y, z, nom, age);
                     }

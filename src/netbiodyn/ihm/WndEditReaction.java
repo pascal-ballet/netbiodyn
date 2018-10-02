@@ -530,7 +530,7 @@ public class WndEditReaction extends javax.swing.JDialog {
             }
         });
         getContentPane().add(button_valider);
-        button_valider.setBounds(10, 320, 260, 40);
+        button_valider.setBounds(10, 330, 260, 40);
 
         button_annuler.setBackground(new java.awt.Color(255, 153, 153));
         button_annuler.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
@@ -546,7 +546,7 @@ public class WndEditReaction extends javax.swing.JDialog {
             }
         });
         getContentPane().add(button_annuler);
-        button_annuler.setBounds(270, 320, 230, 40);
+        button_annuler.setBounds(270, 330, 230, 40);
 
         jLabelNom.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         jLabelNom.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -653,7 +653,7 @@ public class WndEditReaction extends javax.swing.JDialog {
         getContentPane().add(textBox_age);
         textBox_age.setBounds(100, 110, 150, 21);
 
-        setSize(new java.awt.Dimension(524, 440));
+        setSize(new java.awt.Dimension(524, 426));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
