@@ -223,10 +223,11 @@ public class Simulator {
 
         // Fin de l'application effective des reactions
         // Les agents qui n'ont pas reagit voit leur age augmente tout de meme
-        for(int a=0; a<instances.getList().size(); a++)
-            instances.getList().get(a).age++;
+        ArrayList<InstanceReaxel> lst_reax = instances.getList();
+        for(int a=0; a<lst_reax.size(); a++)
+            lst_reax.get(a).age++;
         // On verse les réaxels qui n'ont pas réagit dans la liste future et dans la matrice future
-        instancesFutur.setMatrixAndList(instances.getList());
+        instancesFutur.setMatrixAndList(lst_reax);
 
         instances = new AllInstances(instancesFutur.getList(), instancesFutur.getMatrix(), instancesFutur.getX(), instancesFutur.getY(), instancesFutur.getZ());
         this.setTime(getTime() + 1);

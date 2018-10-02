@@ -823,9 +823,9 @@ public class Controller {
         w.setVisible(true);
 
         if (w.getDialogResult().equals("OK")) {
+            this.stopWithoutAsking();
             model.clearEnvironment();
             model.setParameters(w.getParameters());
-            this.stopWithoutAsking();
             setSaved(false);
         }
     }
