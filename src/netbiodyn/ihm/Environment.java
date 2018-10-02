@@ -2608,10 +2608,8 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                     int p1 = _image_deco.getRGB(x, _image_deco.getHeight()-y-1);
                     _image_deco.setRGB(x, y, p1);
                     _image_deco.setRGB(x, _image_deco.getHeight()-y-1, p0);
-
                 }
             }
-            
             this.pictureBox_Env.setIcon(new ImageIcon(_image_deco));
             pictureBox_Env.repaint();
         }
