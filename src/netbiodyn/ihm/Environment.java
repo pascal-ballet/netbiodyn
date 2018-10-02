@@ -411,12 +411,11 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         jSliderZ = new javax.swing.JSlider();
         jPanelCurves = new javax.swing.JPanel();
         jLabelCourbes = new javax.swing.JLabel();
-        pictureBox_courbes = new javax.swing.JLabel();
         label_courbe_y_max = new javax.swing.JLabel();
+        pictureBox_courbes = new netbiodyn.ihm.JPanelImage();
         jLabel_t0 = new javax.swing.JLabel();
         abscissaBox = new javax.swing.JComboBox();
         label_courbe_x_max = new javax.swing.JLabel();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         jPanelMisc = new javax.swing.JPanel();
         jLabelDivers = new javax.swing.JLabel();
         Ajustement = new javax.swing.JButton();
@@ -946,19 +945,23 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         jLabelCourbes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelCourbes.setText("Courbes");
 
-        pictureBox_courbes.setBackground(java.awt.Color.white);
-        pictureBox_courbes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        pictureBox_courbes.setMaximumSize(new java.awt.Dimension(2000, 2000));
-        pictureBox_courbes.setOpaque(true);
-        pictureBox_courbes.setPreferredSize(new java.awt.Dimension(100, 100));
-        pictureBox_courbes.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                pictureBox_courbesMouseMoved(evt);
-            }
-        });
-
         label_courbe_y_max.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         label_courbe_y_max.setText("0");
+
+        pictureBox_courbes.setBackground(new java.awt.Color(255, 255, 255));
+        pictureBox_courbes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pictureBox_courbes.setPreferredSize(new java.awt.Dimension(200, 200));
+
+        javax.swing.GroupLayout pictureBox_courbesLayout = new javax.swing.GroupLayout(pictureBox_courbes);
+        pictureBox_courbes.setLayout(pictureBox_courbesLayout);
+        pictureBox_courbesLayout.setHorizontalGroup(
+            pictureBox_courbesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        pictureBox_courbesLayout.setVerticalGroup(
+            pictureBox_courbesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 282, Short.MAX_VALUE)
+        );
 
         jLabel_t0.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         jLabel_t0.setText("0");
@@ -990,16 +993,17 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                 .addGap(5, 5, 5)
                 .addGroup(jPanelCurvesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelCurvesLayout.createSequentialGroup()
-                        .addComponent(pictureBox_courbes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCurvesLayout.createSequentialGroup()
-                        .addComponent(jLabel_t0, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(abscissaBox, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel_t0, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(label_courbe_x_max, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCurvesLayout.createSequentialGroup()
+                        .addComponent(pictureBox_courbes, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                        .addGap(10, 10, 10))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCurvesLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(abscissaBox, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelCurvesLayout.setVerticalGroup(
             jPanelCurvesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1008,20 +1012,14 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                 .addGroup(jPanelCurvesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCourbes, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(label_courbe_y_max))
-                .addGroup(jPanelCurvesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelCurvesLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pictureBox_courbes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelCurvesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel_t0)
-                            .addComponent(label_courbe_x_max)
-                            .addComponent(abscissaBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCurvesLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 202, Short.MAX_VALUE)
-                        .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(155, 155, 155))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pictureBox_courbes, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addGap(28, 28, 28)
+                .addGroup(jPanelCurvesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_t0)
+                    .addComponent(label_courbe_x_max))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(abscissaBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         abscissaBox.getAccessibleContext().setAccessibleName("");
@@ -1620,10 +1618,6 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         controller.launchSelfAdjustment();
     }//GEN-LAST:event_LaunchSelfAdjust
 
-    private void pictureBox_courbesMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pictureBox_courbesMouseMoved
-        drawCoordinates();
-    }//GEN-LAST:event_pictureBox_courbesMouseMoved
-
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
         // First display on screen
         if (init_width == -1) {
@@ -1691,6 +1685,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
 
         initBufferedImageSimulator();
         drawAll(0, 0, 0, 0, 0);
+        //pictureBox_courbes.repaint();
     }//GEN-LAST:event_formComponentResized
     private int _courbe_sx = 200;
 
@@ -1714,18 +1709,6 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
             controller.changeProba(nom_moteur, value);
         }
     }//GEN-LAST:event_jSliderProbaMouseReleased
-
-    private void abscissaBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abscissaBoxActionPerformed
-        String absc = (String) abscissaBox.getSelectedItem();
-        if (absc != null) {
-            if ((absc.equalsIgnoreCase("Time")) || (absc.equalsIgnoreCase("Temps"))) {
-                curves.changeAbsc("time");
-            } else {
-                curves.changeAbsc(absc);
-            }
-            dessinerCourbes();
-        }
-    }//GEN-LAST:event_abscissaBoxActionPerformed
 
     private void jSliderSpeedMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSliderSpeedMouseReleased
         controller.changeSpeed(jSliderSpeed.getValue());
@@ -1891,6 +1874,18 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     private void bouton_langActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bouton_langActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bouton_langActionPerformed
+
+    private void abscissaBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abscissaBoxActionPerformed
+        String absc = (String) abscissaBox.getSelectedItem();
+        if (absc != null) {
+            if ((absc.equalsIgnoreCase("Time")) || (absc.equalsIgnoreCase("Temps"))) {
+                curves.changeAbsc("time");
+            } else {
+                curves.changeAbsc(absc);
+            }
+            dessinerCourbes();
+        }
+    }//GEN-LAST:event_abscissaBoxActionPerformed
 
     public void setZLabel() {
         jLabelZ.setText("Z=" + jSliderZ.getValue());
@@ -2188,15 +2183,11 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         ArrayList<String> selectedEntities = getSelectedEntities();
         if (selectedEntities.size() > 0 || wasSelected) {
             wasSelected = false;
-            //ImageIcon img_ico =  (ImageIcon) pictureBox_courbes.getIcon();
             BufferedImage bmp = new BufferedImage(pictureBox_courbes.getWidth(), pictureBox_courbes.getHeight() - 3, BufferedImage.TYPE_INT_RGB);
-                //img_ico = new ImageIcon(bmp);
-                //pictureBox_courbes.setIcon(img_ico);
-            //}
             // RAZ de l'image
             Graphics g = bmp.getGraphics();
             g.setColor(Color.WHITE);
-            g.fillRect(0, 0, courbes_sx, courbes_sy);
+            g.fillRect(0, 0, pictureBox_courbes.getWidth(), pictureBox_courbes.getHeight());
 
             // Bornes
             int max_x = curves.getMaxAbsc().intValue();
@@ -2213,10 +2204,10 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
             double scale_x = (pictureBox_courbes.getWidth() - 3) / (1.0 * max_x);
             double scale_y = (pictureBox_courbes.getHeight() - 8) / (1.0 * max_y);
 
-            bmp = curves.buildOnlySelectedCurves(bmp, scale_x, scale_y, pictureBox_courbes.getHeight());
-            Graphics glbl = pictureBox_courbes.getGraphics();
-            glbl.drawImage(bmp, 0, 0, pictureBox_courbes.getWidth(), pictureBox_courbes.getHeight(), pictureBox_courbes);
-
+            curves.buildOnlySelectedCurves(bmp, scale_x, scale_y, pictureBox_courbes.getHeight());
+            //Graphics glbl = pictureBox_courbes.getGraphics();
+            //glbl.drawImage(bmp, 0, 0, pictureBox_courbes.getWidth(), pictureBox_courbes.getHeight(), pictureBox_courbes);
+            pictureBox_courbes.setImage(bmp);
             label_courbe_x_max.setText(((Integer) max_x).toString());
             label_courbe_y_max.setText("" + max_y.intValue());
 
@@ -2225,7 +2216,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
             label_courbe_x_max.setText(_time + "");
         }
 
-        //jPanelCurves.repaint();
+        jPanelCurves.repaint();
         //pictureBox_courbes.invalidate();
     }
 
@@ -2440,7 +2431,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                     BufferedImage bmp_memory_mega = new BufferedImage(pictureBox_Env.getWidth() * 2, pictureBox_Env.getHeight(), BufferedImage.TYPE_INT_ARGB);
                     Graphics gg = bmp_memory_mega.getGraphics();
                     gg.drawImage(bmp_memory, 0, 0, null);
-                    gg.drawImage(((ImageIcon) (pictureBox_courbes.getIcon())).getImage(), pictureBox_Env.getWidth(), 0, pictureBox_Env.getWidth(), pictureBox_Env.getHeight(), null);
+                    gg.drawImage(pictureBox_courbes.getImage(), pictureBox_Env.getWidth(), 0, pictureBox_Env.getWidth(), pictureBox_Env.getHeight(), null);
                     gg.setColor(Color.black);
                     gg.drawLine(pictureBox_Env.getWidth(), pictureBox_Env.getHeight() - 1, pictureBox_Env.getWidth() * 2 - 1, pictureBox_Env.getHeight() - 1);
                     gg.drawLine(pictureBox_Env.getWidth(), pictureBox_Env.getHeight() - 1, pictureBox_Env.getWidth(), 0);
@@ -2759,7 +2750,6 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     private javax.swing.JButton checkBox_paint_stylo;
     private javax.swing.JList dataGridView_comportements;
     private javax.swing.JList dataGridView_entites;
-    private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.JButton jButton3D;
     private javax.swing.JButton jButtonAddBehav;
@@ -2797,7 +2787,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     private javax.swing.JLabel label_courbe_x_max;
     private javax.swing.JLabel label_courbe_y_max;
     public javax.swing.JLabel pictureBox_Env;
-    private javax.swing.JLabel pictureBox_courbes;
+    private netbiodyn.ihm.JPanelImage pictureBox_courbes;
     private javax.swing.JSlider trackBar_zoom;
     // End of variables declaration//GEN-END:variables
     // Courbes

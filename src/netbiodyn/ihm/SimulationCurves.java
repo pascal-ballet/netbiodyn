@@ -104,7 +104,7 @@ public class SimulationCurves {
         return max;
     }
 
-    public BufferedImage buildOnlySelectedCurves(BufferedImage bmp, double scale_x, double scale_y, int height) {
+    public void buildOnlySelectedCurves(BufferedImage bmp, double scale_x, double scale_y, int height) {
         if (!absc.equals("time")) {
             ArrayList<CurveElement> ab = getByName(absc);
             for (CurveElement c : ab) {
@@ -131,7 +131,6 @@ public class SimulationCurves {
                 bmp.setRGB(1 + (int) x, -4 + height - 1 - (int) y - 1, elt._col.getRGB());
             }
         }
-        return bmp;
     }
 
     /**
