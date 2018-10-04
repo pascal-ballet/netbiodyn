@@ -48,7 +48,7 @@ import netbiodyn.AllInstances;
 import netbiodyn.util.Serialized;
 import netbiodyn.InstanceAgent;
 import netbiodyn.Behavior;
-import netbiodyn.Entity;
+import netbiodyn.Agent;
 
 /**
  * JOGL 2.0 Program Template (GLJPanel) This is a "Component" which can be added
@@ -589,7 +589,7 @@ public class JOGL2Setup_GLJPanel extends GLJPanel implements IhmListener, GLEven
     }
 
     @Override
-    public void protoEntityUpdate(ArrayList<Entity> entities, HashMap<String, Integer> entitesBook) {
+    public void protoEntityUpdate(ArrayList<Agent> entities, HashMap<String, Integer> entitesBook) {
     }
 
     @Override

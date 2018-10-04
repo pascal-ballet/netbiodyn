@@ -34,7 +34,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import netbiodyn.Behavior;
-import netbiodyn.Entity;
+import netbiodyn.Agent;
 import netbiodyn.util.Lang;
 import netbiodyn.util.RandomGen;
 
@@ -44,10 +44,10 @@ import netbiodyn.util.RandomGen;
  */
 public class WndEditAgent extends javax.swing.JDialog {
 
-    private final ArrayList<Entity> entities;
+    private final ArrayList<Agent> entities;
     private final ArrayList<Behavior> behaviours;
     private String DialogResult = "";
-    public Entity entity = null;
+    public Agent entity = null;
     String _old_name = "";
     Color _old_color = Color.black;
 
@@ -57,14 +57,14 @@ public class WndEditAgent extends javax.swing.JDialog {
      * @param entities
      * @param behaviours
      */
-    public WndEditAgent(ArrayList<Entity> entities, ArrayList<Behavior> behaviours) {
+    public WndEditAgent(ArrayList<Agent> entities, ArrayList<Behavior> behaviours) {
         this.setModal(true);
         this.entities = entities;
         this.behaviours = behaviours;
         initComponents();
     }
 
-    public void WndCliValue_Load(Entity reaxel) {
+    public void WndCliValue_Load(Agent reaxel) {
         // Set language
         if (Lang.getInstance().getLang().equals("FR")) {
             jLabelNom.setText("Nom");
@@ -100,7 +100,7 @@ public class WndEditAgent extends javax.swing.JDialog {
         if (reaxel != null) {
             setCli(reaxel);
         } else {
-            entity = new Entity();
+            entity = new Agent();
             entity.Couleur = new Color(RandomGen.getInstance().nextInt(250), RandomGen.getInstance().nextInt(250), RandomGen.getInstance().nextInt(250));
         }
 
@@ -128,11 +128,11 @@ public class WndEditAgent extends javax.swing.JDialog {
         
     }
 
-    public Entity getCli() {
+    public Agent getCli() {
         return entity;
     }
 
-    public void setCli(Entity _cli) {
+    public void setCli(Agent _cli) {
         this.entity = _cli;
     }
 
@@ -590,7 +590,7 @@ public class WndEditAgent extends javax.swing.JDialog {
 
         // List des noms deja existants
         ArrayList<String> lst_str = new ArrayList<>();
-        for (Entity entity : entities) {
+        for (Agent entity : entities) {
             lst_str.add(entity._etiquettes);
         }
 

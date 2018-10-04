@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JProgressBar;
-import netbiodyn.Entity;
+import netbiodyn.Agent;
 import netbiodyn.util.FileSaverLoader;
 
 /**
@@ -356,11 +356,11 @@ public class SimulationCurves {
      * @param path of the csv file
      * @param entities we are looking for datas
      */
-    public void importFromCSV(String path, ArrayList<Entity> entities) {
+    public void importFromCSV(String path, ArrayList<Agent> entities) {
         clear();
 
         ArrayList<String> existingNames = new ArrayList<>();
-        for (Entity r : entities) {
+        for (Agent r : entities) {
             existingNames.add(r.getEtiquettes());
         }
 
@@ -399,8 +399,8 @@ public class SimulationCurves {
      * @param name of the specific entity
      * @return the entity Color, or the default Color.Black
      */
-    private Color getColor(ArrayList<Entity> entities, String name) {
-        for (Entity p : entities) {
+    private Color getColor(ArrayList<Agent> entities, String name) {
+        for (Agent p : entities) {
             if (p.getEtiquettes().equals(name)) {
                 return p.Couleur;
             }

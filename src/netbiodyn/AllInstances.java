@@ -132,7 +132,7 @@ public class AllInstances extends ArrayList<InstanceAgent> implements Cloneable{
         return false;
     }
 
-    public void editReaxels(Entity entity, String old_name) {
+    public void editReaxels(Agent entity, String old_name) {
         ArrayList<InstanceAgent> copy = getList();
         for (InstanceAgent reaxel : copy) {
             if (reaxel.getNom().equals(old_name)) {

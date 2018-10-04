@@ -37,7 +37,7 @@ import netbiodyn.ihm.Env_Parameters;
 import netbiodyn.InstanceAgent;
 import netbiodyn.Behavior;
 import netbiodyn.ProtoBioDyn;
-import netbiodyn.Entity;
+import netbiodyn.Agent;
 import netbiodyn.Moteur;
 import netbiodyn.ihm.Controller;
 
@@ -167,8 +167,8 @@ public class FileSaverLoader extends SaverLoader {
             out.write(toString1);
         }
         // Save image related to a Entity
-        if (proto instanceof Entity) {
-            Entity reaxel = (Entity) proto;
+        if (proto instanceof Agent) {
+            Agent reaxel = (Agent) proto;
             if (reaxel.BackgroundImage != null) {
                 File F = new File(path_parent + "/" + reaxel._str_image_deco);
                 String str_image_modifie = reaxel._str_image_deco.replace('.', ';');
@@ -254,7 +254,7 @@ public class FileSaverLoader extends SaverLoader {
 
             int size = in.readInt();
             for (int i = 0; i < size; i++) {
-                Entity entity = (Entity) in.readObject();
+                Agent entity = (Agent) in.readObject();
                 if (!entity._str_image_deco.equalsIgnoreCase("")) {
                     BufferedImage monImage = null;
                     try {
@@ -621,7 +621,7 @@ public class FileSaverLoader extends SaverLoader {
 
     private Serialized ChargerNoeud(String abs_path, BufferedReader testLoad, Serialized saved) {
         // Chargement Entite
-        Entity cli = new Entity();
+        Agent cli = new Agent();
 
         boolean fin_clinamon = false;
         while (fin_clinamon == false) {
@@ -915,8 +915,8 @@ public class FileSaverLoader extends SaverLoader {
     }
 
     private Serialized remplirControlReaxels(BufferedImage Image_CliEnv, Serialized saved) {
-        ArrayList<Entity> lst_cli = new ArrayList<Entity>();
-        HashMap<Integer, Entity> dic_color_cli = new HashMap<Integer, Entity>();
+        ArrayList<Agent> lst_cli = new ArrayList<Agent>();
+        HashMap<Integer, Agent> dic_color_cli = new HashMap<Integer, Agent>();
         if (Image_CliEnv != null) {
             saved.setTaille("tailleX", "" + Image_CliEnv.getWidth());
             saved.setTaille("tailleY", "" + Image_CliEnv.getHeight());
@@ -924,7 +924,7 @@ public class FileSaverLoader extends SaverLoader {
 
             saved.initMatriceAndList();
 
-            ArrayList<Entity> noeuds = saved.getListManipulesNoeuds();
+            ArrayList<Agent> noeuds = saved.getListManipulesNoeuds();
             for (int i = 0; i < noeuds.size(); i++) {
                 lst_cli.add(noeuds.get(i));
                 int rgb = (noeuds.get(i)).Couleur.getRGB();
@@ -937,7 +937,7 @@ public class FileSaverLoader extends SaverLoader {
                     BufferedImage bmp = Image_CliEnv;
                     int c = bmp.getRGB(i, j);
                     if (dic_color_cli.containsKey(c)) {
-                        Entity cli = dic_color_cli.get(c);
+                        Agent cli = dic_color_cli.get(c);
                         saved.AjouterReaxel(i, j, 0, cli);
                     }
                 }

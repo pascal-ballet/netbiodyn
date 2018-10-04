@@ -27,7 +27,7 @@ import netbiodyn.AllInstances;
 import netbiodyn.InstanceAgent;
 import netbiodyn.Model;
 import netbiodyn.Behavior;
-import netbiodyn.Entity;
+import netbiodyn.Agent;
 import netbiodyn.Simulator;
 import netbiodyn.util.FileSaverLoader;
 import netbiodyn.util.Lang;
@@ -213,7 +213,7 @@ public class Controller {
     /**
      * Creates a new entity type. Called by Environment
      *
-     * @see Entity and WndEditNoeud
+     * @see Agent and WndEditNoeud
      */
     public void addEntity() {
         if (simulator.isRunning()) {
@@ -250,7 +250,7 @@ public class Controller {
             }
         }
     }
-    public void addBehaviourFromAgentMouvement(Entity e) {
+    public void addBehaviourFromAgentMouvement(Agent e) {
         WndEditBehavior w = new WndEditBehavior(model.getListManipulesNoeuds(), model.getListManipulesReactions());
         w.LoadBehavior(null);
         w.setVisible(false);
@@ -541,7 +541,7 @@ public class Controller {
     /**
      * Edit an existing Entity. Called by Environment
      *
-     * @see Entity and WndEditNoeud
+     * @see Agent and WndEditNoeud
      */
     public void editEntity() {
         if (simulator.isRunning()) {
@@ -550,7 +550,7 @@ public class Controller {
 
         if (env.getDataGridView_entites().getSelectedIndex() >= 0) {
             String name = UtilDivers.str_originale(env.getDataGridView_entites().getSelectedValue().toString());
-            Entity p = model.getProtoReaxel(name);
+            Agent p = model.getProtoReaxel(name);
 
             WndEditAgent wc = new WndEditAgent(model.getListManipulesNoeuds(),
                     model.getListManipulesReactions());
@@ -844,7 +844,7 @@ public class Controller {
         } else { // On est en STOP et on fait PLAY
             // Ajouts des comportements de mouvement des agents
             for(int a=0; a < model.getListManipulesNoeuds().size(); a++) {
-                Entity e = model.getListManipulesNoeuds().get(a);
+                Agent e = model.getListManipulesNoeuds().get(a);
                 if(e.mvt_proba > 0.0) {
                     addBehaviourFromAgentMouvement(e);
                 }
@@ -986,8 +986,8 @@ public class Controller {
         String str_model = "\\fs32 \\b Entites:\n\\par\n\\b0";
 
         // Entites
-        ArrayList<Entity> lstc = model.getListManipulesNoeuds();
-        for (Entity cli : lstc) {
+        ArrayList<Agent> lstc = model.getListManipulesNoeuds();
+        for (Agent cli : lstc) {
             str_model += cli.getEtiquettes() + "\\b:\\b0";
             str_model += " 1/2 Vie =";
             if (cli.DemieVie > 0) {

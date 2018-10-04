@@ -48,8 +48,8 @@ import netbiodyn.AllInstances;
 import netbiodyn.util.Serialized;
 import netbiodyn.InstanceAgent;
 import netbiodyn.Behavior;
-import netbiodyn.Entity;
-import netbiodyn.ProtoSimplexel;
+import netbiodyn.Agent;
+import netbiodyn.ProtoAgent;
 import netbiodyn.util.Lang;
 import netbiodyn.util.RandomGen;
 import netbiodyn.util.UtilDivers;
@@ -72,7 +72,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     private boolean movingCubes = false;
     private boolean freezed = false;
 
-    private ArrayList<Entity> _ListManipulesNoeuds = new ArrayList<>();
+    private ArrayList<Agent> _ListManipulesNoeuds = new ArrayList<>();
     private ArrayList<Behavior> _ListManipulesReactions = new ArrayList<>();
     private AllInstances instances;
 
@@ -152,7 +152,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     }
 
     @Override
-    public void protoEntityUpdate(ArrayList<Entity> entities, HashMap<String, Integer> entitesBook) {
+    public void protoEntityUpdate(ArrayList<Agent> entities, HashMap<String, Integer> entitesBook) {
         checkForChangesInCurves(_ListManipulesNoeuds, entities);
         _dataGridView_entitesIsChanging = true;
         _ListManipulesNoeuds = entities;
@@ -1558,7 +1558,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         } else {
             abscissaBox.addItem("Time");
         }
-        for (Entity r : _ListManipulesNoeuds) {
+        for (Agent r : _ListManipulesNoeuds) {
             abscissaBox.addItem(r.getEtiquettes());
         }
     }
@@ -1917,7 +1917,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                 }
 
             } else {
-                Entity n = getReaxelByName(r.getNom());
+                Agent n = getReaxelByName(r.getNom());
                 try {
                     JOptionPane.showMessageDialog(this, "Agent :" + r.getNom() + "\n" + n.getDescription().getDocument().getText(0, n.getDescription().getDocument().getLength()));
                 } catch (Exception ex) {
@@ -2138,9 +2138,9 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     public void fillDataGridEntities() {
         // Entites a placer dans la dataGrid
         DefaultListModel model = new DefaultListModel();
-        for (Entity _ListManipulesNoeud : this._ListManipulesNoeuds) {
-            if (((ProtoSimplexel) _ListManipulesNoeud)._visibleDansPanel) {
-                String nom_cli = str_aujout_nbr(((ProtoSimplexel) _ListManipulesNoeud).getEtiquettes(), 0);
+        for (Agent _ListManipulesNoeud : this._ListManipulesNoeuds) {
+            if (((ProtoAgent) _ListManipulesNoeud)._visibleDansPanel) {
+                String nom_cli = str_aujout_nbr(((ProtoAgent) _ListManipulesNoeud).getEtiquettes(), 0);
                 model.addElement(nom_cli);
             }
         }
@@ -2261,7 +2261,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         // afin d'accelerer l'affichage
         HashMap<String, Image> dico_cube_image_adaptee = new HashMap<>();
 
-        for (Entity cli : _ListManipulesNoeuds) {
+        for (Agent cli : _ListManipulesNoeuds) {
             if (cli.BackgroundImage != null) {
                 float width_in_bmp_memory = (float) (deltaUniverseToWindow(_observed_left, _observed_width + _observed_left, 1, (float) (bmp_memory.getWidth(null))) / (cli._taille * 0.75 + 1)); //scale_x * (1 / _observed_width);
                 float height_in_bmp_memory = (float) (deltaUniverseToWindow(_observed_top, _observed_height + _observed_top, 1, bmp_memory.getHeight(null)) / (cli._taille * 0.75 + 1)); //scale_y * (1 / _observed_height);
@@ -2495,8 +2495,8 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         this.button_play.setIcon(icon_bouton_pause);
     }
 
-    public Entity getReaxelByName(String etiquette) {
-        for (Entity proto : _ListManipulesNoeuds) {
+    public Agent getReaxelByName(String etiquette) {
+        for (Agent proto : _ListManipulesNoeuds) {
             if (proto.TrouveEtiquette(etiquette) >= 0) {
                 return proto;
             }
@@ -2513,15 +2513,15 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         drawAll(0, 0, 0, 0, 0);
     }
 
-    private void checkForChangesInCurves(ArrayList<Entity> old, ArrayList<Entity> update) {
+    private void checkForChangesInCurves(ArrayList<Agent> old, ArrayList<Agent> update) {
         if (old.size() > update.size()) {
             // chercher celui qui a été supprimé pour supprimer les points
 
         } else {
             if (old.size() == update.size()) {
                 //chercher s'il y eu un changement de nom
-                for (Entity reaxel : old) {
-                    for (Entity up : update) {
+                for (Agent reaxel : old) {
+                    for (Agent up : update) {
                         if (!old.contains(up)) {
                             if (!update.contains(reaxel)) {
                                 curves.changeName(reaxel.getEtiquettes(), up.getEtiquettes());
@@ -2543,7 +2543,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     }
 
     private void memoriserCourbes() {
-        for (Entity proto : _ListManipulesNoeuds) {
+        for (Agent proto : _ListManipulesNoeuds) {
             int nb_p = 0;
             if (dico_courbes != null) {
                 if (dico_courbes.containsKey(proto.getEtiquettes())) {
@@ -2654,7 +2654,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         this.movingCubes = movingCubes;
     }
 
-    public ArrayList<Entity> getListManipulesNoeuds() {
+    public ArrayList<Agent> getListManipulesNoeuds() {
         return _ListManipulesNoeuds;
     }
 

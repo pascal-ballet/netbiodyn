@@ -13,12 +13,12 @@ import javax.swing.JTextArea;
  *
  * @author User
  */
-public class ProtoSimplexel extends ProtoBioDyn {
+public class ProtoAgent extends ProtoBioDyn {
 
     /**
      * Creates new form Entite
      */
-    public ProtoSimplexel() {
+    public ProtoAgent() {
         initComponents();
     }
 

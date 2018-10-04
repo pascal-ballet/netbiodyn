@@ -33,43 +33,43 @@ import java.util.ArrayList;
  *
  * @author ballet
  */
-public class Entity extends ProtoSimplexel implements Externalizable {
+public class Agent extends ProtoAgent implements Externalizable {
 
     private static final long serialVersionUID = 1L;    
 
     /**
      * Creates new form Entite
      */
-    public Entity() {
+    public Agent() {
         initComponents();
         //_description.setContentType("text/rtf");
         //setBounds(0-200,0-200, 134-200, 73-200);
     }
 
     @Override
-    public Entity clone() {
-        Entity reaxel = new Entity();
-        reaxel.setEtiquettes(getEtiquettes());
-        reaxel.Couleur = Couleur;
-        reaxel._visibleDansPanel = _visibleDansPanel;
-        reaxel.Vidable = Vidable;
-        reaxel.DemieVie = DemieVie;
-        reaxel._forme = _forme;
-        reaxel._taille = _taille;
-        reaxel.invisible=invisible;
+    public Agent clone() {
+        Agent agt = new Agent();
+        agt.setEtiquettes(getEtiquettes());
+        agt.Couleur = Couleur;
+        agt._visibleDansPanel = _visibleDansPanel;
+        agt.Vidable = Vidable;
+        agt.DemieVie = DemieVie;
+        agt._forme = _forme;
+        agt._taille = _taille;
+        agt.invisible=invisible;
         if (BackgroundImage != null) {
-            reaxel._str_image_deco = _str_image_deco;
-            reaxel.BackgroundImage=BackgroundImage;
+            agt._str_image_deco = _str_image_deco;
+            agt.BackgroundImage=BackgroundImage;
         }
-        reaxel.mvt_proba = mvt_proba;
-        reaxel.mvt_gauche = mvt_gauche;
-        reaxel.mvt_droite = mvt_droite;
-        reaxel.mvt_haut = mvt_haut;
-        reaxel.mvt_bas = mvt_bas;
-        reaxel.mvt_devant = mvt_devant;
-        reaxel.mvt_derriere = mvt_derriere;
+        agt.mvt_proba = mvt_proba;
+        agt.mvt_gauche = mvt_gauche;
+        agt.mvt_droite = mvt_droite;
+        agt.mvt_haut = mvt_haut;
+        agt.mvt_bas = mvt_bas;
+        agt.mvt_devant = mvt_devant;
+        agt.mvt_derriere = mvt_derriere;
         
-        return reaxel;
+        return agt;
     }
 
     @Override

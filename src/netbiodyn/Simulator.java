@@ -281,8 +281,8 @@ public class Simulator {
      */
     public HashMap<String, Integer> updateList() {
         HashMap<String, Integer> entities = instances.getBook();
-        ArrayList<Entity> reaxels = model.getListManipulesNoeuds();
-        for (Entity entity : reaxels) {
+        ArrayList<Agent> reaxels = model.getListManipulesNoeuds();
+        for (Agent entity : reaxels) {
             if (entities.containsKey(entity._etiquettes) == false) {
                 entities.put(entity._etiquettes, 0);
             }
@@ -345,7 +345,7 @@ public class Simulator {
 
     private boolean AjouterReaxel(int i, int j, int k, String etiquette) {
         boolean changed = false;
-        ArrayList<Entity> reaxels = model.getListManipulesNoeuds();
+        ArrayList<Agent> reaxels = model.getListManipulesNoeuds();
         for (int n = 0; n < reaxels.size(); n++) {
             if (reaxels.get(n).TrouveEtiquette(etiquette) >= 0) {
                 InstanceAgent r = InstanceAgent.CreerReaxel(reaxels.get(n));
@@ -370,7 +370,7 @@ public class Simulator {
 
     private boolean AjouterFuturReaxel(int i, int j, int k, String etiquette, double age) {
         boolean changed = false;
-        ArrayList<Entity> lst_reaxels = model.getListManipulesNoeuds();
+        ArrayList<Agent> lst_reaxels = model.getListManipulesNoeuds();
         for (int n = 0; n < lst_reaxels.size(); n++) {
             if (lst_reaxels.get(n).TrouveEtiquette(etiquette) >= 0) {
                 InstanceAgent r = InstanceAgent.CreerReaxel(lst_reaxels.get(n));
@@ -385,7 +385,7 @@ public class Simulator {
         return changed;
     }
 
-    public void ProtoReaxelEdited(Entity entity, String old_name) {
+    public void ProtoReaxelEdited(Agent entity, String old_name) {
         instances.editReaxels(entity, old_name);
         for (final IhmListener listen : listeners.getListeners(IhmListener.class)) {
             listen.matrixUpdate(getInstances(), updateList(), getTime());

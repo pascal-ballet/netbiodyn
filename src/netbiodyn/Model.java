@@ -29,7 +29,7 @@ public class Model {
     private final EventListenerList listeners;
     private Env_Parameters parameters;
 
-    private ArrayList<Entity> entities; // Entity types
+    private ArrayList<Agent> entities; // Entity types
     private ArrayList<Behavior> behaviors; // Behaviour
     private AllInstances instances;
 
@@ -44,7 +44,7 @@ public class Model {
         instances = new AllInstances(parameters.getX(), parameters.getY(), parameters.getZ());
     }
 
-    private Model(Env_Parameters parameters, AllInstances instances, ArrayList<Entity> entities, ArrayList<Behavior> behaviors) {
+    private Model(Env_Parameters parameters, AllInstances instances, ArrayList<Agent> entities, ArrayList<Behavior> behaviors) {
         this.parameters = parameters;
         this.instances = instances;
         this.entities = entities;
@@ -179,8 +179,8 @@ public class Model {
         return null;
     }
 
-    public Entity getProtoReaxel(String name) {
-        for (Entity entity : entities) {
+    public Agent getProtoReaxel(String name) {
+        for (Agent entity : entities) {
             if (entity._etiquettes.equals(name)) {
                 return entity.clone();
             }
@@ -190,7 +190,7 @@ public class Model {
 
     public ArrayList<String> getEntitiesNames() {
         ArrayList<String> names = new ArrayList<>();
-        for (Entity r : entities) {
+        for (Agent r : entities) {
             names.add(r.getEtiquettes());
         }
         return names;
@@ -241,14 +241,14 @@ public class Model {
         }
     }
 
-    public void addProtoReaxel(Entity entity) {
+    public void addProtoReaxel(Agent entity) {
         entities.add(entity);
         for (final IhmListener listen : listeners.getListeners(IhmListener.class)) {
             listen.protoEntityUpdate(getCopyListManipulesNoeuds(), getInitialState());
         }
     }
 
-    public void editProtoReaxel(Entity entity, String old_name, int time) {
+    public void editProtoReaxel(Agent entity, String old_name, int time) {
         int index = 0;
         for (int i = 0; i < entities.size(); i++) {
             if (entities.get(i)._etiquettes.equals(old_name)) {
@@ -275,7 +275,7 @@ public class Model {
 
     public void delProtoReaxel(ArrayList<String> entities) {
         for (String r : entities) {
-            Entity rea = getProtoReaxel(r);
+            Agent rea = getProtoReaxel(r);
             this.entities.remove(rea);
             instances.removeEntityType(r);
 //            this.removeInBehaviours(r.getEtiquettes());
@@ -309,7 +309,7 @@ public class Model {
     }
 
     public void editEntitiesHalfLife(String nom, double value) {
-        Entity entity = getProtoReaxel(nom);
+        Agent entity = getProtoReaxel(nom);
         if (entity != null) {
             entity.DemieVie = value;
             this.editProtoReaxel(entity, nom, 0);
@@ -442,7 +442,7 @@ public class Model {
      */
     public HashMap<String, Integer> getInitialState() {
         HashMap<String, Integer> init = instances.getBook();
-        for (Entity entity : entities) {
+        for (Agent entity : entities) {
             if (init.containsKey(entity._etiquettes) == false) {
                 init.put(entity._etiquettes, 0);
             }
@@ -451,7 +451,7 @@ public class Model {
         return init;
     }
 
-    public ArrayList<Entity> getListManipulesNoeuds() {
+    public ArrayList<Agent> getListManipulesNoeuds() {
         return entities;
     }
 
@@ -459,9 +459,9 @@ public class Model {
         return behaviors;
     }
 
-    public ArrayList<Entity> getCopyListManipulesNoeuds() {
-        ArrayList<Entity> proto = new ArrayList<>();
-        for (Entity r : entities) {
+    public ArrayList<Agent> getCopyListManipulesNoeuds() {
+        ArrayList<Agent> proto = new ArrayList<>();
+        for (Agent r : entities) {
             proto.add(r.clone());
         }
         return proto;

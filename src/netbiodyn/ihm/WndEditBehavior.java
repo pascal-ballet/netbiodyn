@@ -33,7 +33,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import netbiodyn.Behavior;
-import netbiodyn.Entity;
+import netbiodyn.Agent;
 import netbiodyn.util.Lang;
 
 /**
@@ -47,14 +47,14 @@ public class WndEditBehavior extends javax.swing.JDialog {
     private String DialogResult = null;
     private int _mouseX = 0, _mouseY = 0;
     private final ArrayList<Behavior> lstCmpt;
-    private final ArrayList<Entity> entities;
+    private final ArrayList<Agent> entities;
 
     /**
      * Creates new form WndEditReaction
      * @param entities
      * @param behaviours
      */
-    public WndEditBehavior(ArrayList<Entity> entities, ArrayList<Behavior> behaviours) {
+    public WndEditBehavior(ArrayList<Agent> entities, ArrayList<Behavior> behaviours) {
         this.setModal(true);
         lstCmpt=behaviours;
         this.entities=entities;                
@@ -328,7 +328,7 @@ public class WndEditBehavior extends javax.swing.JDialog {
 
             // Pour les 2 tables (réactifs et produits)
         // Entites
-        for (Entity lst_cli1 : entities) {
+        for (Agent lst_cli1 : entities) {
             comboBox_reactifs.addItem(lst_cli1._etiquettes);
             comboBox_produits.addItem(lst_cli1._etiquettes);
         }
@@ -765,7 +765,7 @@ public class WndEditBehavior extends javax.swing.JDialog {
             }
         }
 
-        for (Entity lst_cli1 : entities) {
+        for (Agent lst_cli1 : entities) {
             if (lst_cli1.TrouveEtiquette(str2) >= 0) {
                 nom_existe = true;
             }

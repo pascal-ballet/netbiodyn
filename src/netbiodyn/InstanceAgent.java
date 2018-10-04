@@ -80,7 +80,7 @@ public class InstanceAgent extends InstanceSimplexel implements Cloneable{
         return clone;
     }
     
-    public static InstanceAgent CreerReaxel(Entity cli) {
+    public static InstanceAgent CreerReaxel(Agent cli) {
         InstanceAgent r = new InstanceAgent();
         r._couleur = cli.Couleur;
         r._taille = cli._taille;
