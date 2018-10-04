@@ -109,6 +109,7 @@ public class WndEditAgent extends javax.swing.JDialog {
 
         textBox1.setText(entity._etiquettes);
         textBox_mvt.setText(((Double) entity.mvt_proba).toString());
+        textBox_demie_vie.setText(((Double) entity.DemieVie).toString());
 
         // Apparence
         buttonCouleur.setBackground(entity.Couleur);
