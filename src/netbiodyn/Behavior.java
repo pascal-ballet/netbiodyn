@@ -51,6 +51,8 @@ public class Behavior extends Moteur implements Externalizable {
     public ArrayList<String> _produits = new ArrayList<>();
     public ArrayList<String> _positions = new ArrayList<>();
 
+    public int[] _origine = new int[3];
+    
     public ArrayList<InstanceReaction> _reactionsPossibles = new ArrayList<>();
     public JTextArea _code = new JTextArea();
     public boolean _code_parse = false;
@@ -78,6 +80,9 @@ public class Behavior extends Moteur implements Externalizable {
         // Instanciation d'une entite vide
         entiteVide = new InstanceReaxel();
         entiteVide.setNom("0");
+        // Origine des produits mise a 0
+        for(int i=0; i<_origine.length; i++)
+            _origine[i] = 0;
     }
 
     @Override
@@ -91,6 +96,8 @@ public class Behavior extends Moteur implements Externalizable {
         m._ListElementsReactions = (ArrayList<WndEditElementDeReaction>) _ListElementsReactions.clone();
         m.set_k(get_k());
         m.set_age(get_age());
+        for(int i=0; i<_origine.length; i++)
+            m._origine[i] = _origine[i];
         return m;
     }
 

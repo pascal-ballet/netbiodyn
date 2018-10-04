@@ -283,7 +283,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
             }
         });
         getContentPane().add(button_OK);
-        button_OK.setBounds(0, 360, 280, 30);
+        button_OK.setBounds(0, 350, 290, 40);
 
         button_CANCEL.setBackground(new java.awt.Color(255, 153, 153));
         button_CANCEL.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
@@ -299,7 +299,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
             }
         });
         getContentPane().add(button_CANCEL);
-        button_CANCEL.setBounds(300, 360, 210, 30);
+        button_CANCEL.setBounds(290, 350, 220, 40);
 
         jLabelDescr.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         jLabelDescr.setText("Description de l'agent");
@@ -461,7 +461,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
         getContentPane().add(jSeparator6);
         jSeparator6.setBounds(0, 300, 290, 10);
 
-        setSize(new java.awt.Dimension(527, 437));
+        setSize(new java.awt.Dimension(527, 447));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
