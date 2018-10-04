@@ -50,6 +50,8 @@ public class FileSaverLoader extends SaverLoader {
     private String path;
     private String path_parent;
     private Environment ihm;
+    
+    public String _version = "3d-1.0";
 
     public FileSaverLoader(Environment ihm, String path) {
         this.ihm = ihm;
@@ -74,22 +76,22 @@ public class FileSaverLoader extends SaverLoader {
         BufferedWriter out = new BufferedWriter(testSave);
 
         try {
-            out.write("version:3d-1.0\n");
+            out.write("version:2018_1\n"); // out.write("version:3d-1.0\n");
         } catch (Exception e) {
             erreur = true;
         }
 
         try {
-            for (int i = 0; i < toSave.getListManipulesNoeuds().size(); i++) {
-                this.saveProtoBioDyn(toSave.getListManipulesNoeuds().get(i), out);
+            for (int i = 0; i < toSave.getListManipulesAgents().size(); i++) {
+                this.saveProtoBioDyn(toSave.getListManipulesAgents().get(i), out);
             }
         } catch (Exception e) {
             erreur = true;
         }
 
         try {
-            for (int i = 0; i < toSave.getListManipulesReactions().size(); i++) {
-                this.saveProtoBioDyn(toSave.getListManipulesReactions().get(i), out);
+            for (int i = 0; i < toSave.getListManipulesBehaviors().size(); i++) {
+                this.saveProtoBioDyn(toSave.getListManipulesBehaviors().get(i), out);
             }
         } catch (Exception e) {
             erreur = true;
@@ -188,20 +190,22 @@ public class FileSaverLoader extends SaverLoader {
     public boolean saveToSerial(Serialized toSave, JProgressBar waiter) {
         boolean erreur = false;
         try (FileOutputStream fileOut = new FileOutputStream(path); ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
-            out.writeUTF("serialized:3d-2.0");
+            out.writeUTF("serialized:"+_version); //out.writeUTF("serialized:3d-2.0");
             out.writeObject(toSave.getParameters());
             waiter.setValue(20);
-            int size = toSave.getListManipulesNoeuds().size();
+            int size = toSave.getListManipulesAgents().size();
             out.writeInt(size);
             for (int i = 0; i < size; i++) {
-                out.writeObject(toSave.getListManipulesNoeuds().get(i));
+                out.writeObject(toSave.getListManipulesAgents().get(i));
             }
             waiter.setValue(40);
 
-            size = toSave.getListManipulesReactions().size();
+            size = toSave.getListManipulesBehaviors().size();
             out.writeInt(size);
             for (int i = 0; i < size; i++) {
-                out.writeObject(toSave.getListManipulesReactions().get(i));
+                out.writeObject(toSave.getListManipulesBehaviors().get(i));
+                out.writeObject(toSave.getListManipulesBehaviors().get(i).getAge());
+                out.writeObject(toSave.getListManipulesBehaviors().get(i)._origine);
             }
 
             waiter.setValue(60);
@@ -254,23 +258,25 @@ public class FileSaverLoader extends SaverLoader {
 
             int size = in.readInt();
             for (int i = 0; i < size; i++) {
-                Agent entity = (Agent) in.readObject();
-                if (!entity._str_image_deco.equalsIgnoreCase("")) {
+                Agent agt = (Agent) in.readObject();
+                if (!agt._str_image_deco.equalsIgnoreCase("")) {
                     BufferedImage monImage = null;
                     try {
-                        monImage = ImageIO.read(new File(chemin(path) + "/" + entity._str_image_deco));
+                        monImage = ImageIO.read(new File(chemin(path) + "/" + agt._str_image_deco));
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(ihm, e);
                     }
-                    entity.BackgroundImage = monImage;
+                    agt.BackgroundImage = monImage;
                 }
-                saved.addProtoReaxel(entity);
+                saved.addProtoReaxel(agt);
             }
             waiter.setValue(40);
 
             size = in.readInt();
             for (int i = 0; i < size; i++) {
                 Behavior b = (Behavior) in.readObject();
+                b.setAge((double) in.readObject());
+                b._origine = (int[]) in.readObject();
                 b.setParameters(parameters);
                 saved.addMoteurReaction(b);
             }
@@ -290,7 +296,7 @@ public class FileSaverLoader extends SaverLoader {
             in.close();
             fileIn.close();
 
-        } catch (IOException | ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException | ClassCastException ex) {
             Logger.getLogger(FileSaverLoader.class.getName()).log(Level.SEVERE, null, ex);
             if (Lang.getInstance().getLang().equals("FR")) {
                 JOptionPane.showMessageDialog(ihm, "Oups ! Désolé, impossible de charger ce fichier - Incompatibilité de versions - Essayer peut-être une ancienne version de NBD ?");
@@ -703,7 +709,7 @@ public class FileSaverLoader extends SaverLoader {
         react3._positions = new ArrayList<>();
 
         boolean fin = false;
-        WndEditBehavior tmp_wnd_react_cplx = new WndEditBehavior(saved.getListManipulesNoeuds(), saved.getListManipulesReactions());
+        WndEditBehavior tmp_wnd_react_cplx = new WndEditBehavior(saved.getListManipulesAgents(), saved.getListManipulesBehaviors());
         while (fin == false) {
             String ligne = null;
             try {
@@ -924,7 +930,7 @@ public class FileSaverLoader extends SaverLoader {
 
             saved.initMatriceAndList();
 
-            ArrayList<Agent> noeuds = saved.getListManipulesNoeuds();
+            ArrayList<Agent> noeuds = saved.getListManipulesAgents();
             for (int i = 0; i < noeuds.size(); i++) {
                 lst_cli.add(noeuds.get(i));
                 int rgb = (noeuds.get(i)).Couleur.getRGB();

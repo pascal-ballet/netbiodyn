@@ -42,7 +42,7 @@ public class Serialized {
         this.parameters=parameters;
     }
 
-    public ArrayList<Agent> getListManipulesNoeuds() {
+    public ArrayList<Agent> getListManipulesAgents() {
         ArrayList<Agent> proto = new ArrayList<>();
         for (Agent r : _ListManipulesNoeuds) {
             proto.add(r.clone());
@@ -62,7 +62,7 @@ public class Serialized {
         _ListManipulesReactions.add(m);
     }
 
-    public ArrayList<Behavior> getListManipulesReactions() {
+    public ArrayList<Behavior> getListManipulesBehaviors() {
         ArrayList<Behavior> moteurs = new ArrayList<>();
         for (Behavior r : _ListManipulesReactions) {
             moteurs.add(r.clone());

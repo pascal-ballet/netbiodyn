@@ -60,6 +60,14 @@ public class Behavior extends Moteur implements Externalizable {
 //    private static final long serialVersionUID = -8199498788176385232;
     private double _age;
 
+    public double getAge() {
+        return _age;
+    }
+
+    public void setAge(double _age) {
+        this._age = _age;
+    }
+
     /**
      * Creates new form MoteurReaction
      */
@@ -95,7 +103,7 @@ public class Behavior extends Moteur implements Externalizable {
         m._positions = (ArrayList<String>) _positions.clone();
         m._ListElementsReactions = (ArrayList<WndEditElementDeReaction>) _ListElementsReactions.clone();
         m.set_k(get_k());
-        m.set_age(get_age());
+        m.setAge(getAge());
         for(int i=0; i<_origine.length; i++)
             m._origine[i] = _origine[i];
         return m;
@@ -459,14 +467,6 @@ public class Behavior extends Moteur implements Externalizable {
 
     public double get_k() {
         return _k;
-    }
-
-    public void set_age(double a) {
-        _age = a;
-    }    
-
-    public double get_age() {
-        return _age;
     }
     
     @Override

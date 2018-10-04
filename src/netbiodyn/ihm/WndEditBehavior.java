@@ -290,7 +290,7 @@ public class WndEditBehavior extends javax.swing.JDialog {
 
         textBox_etiquette.setText(_r3.getEtiquettes());
         textBox_k.setText(((Double) _r3.get_k()).toString());
-        textBox_age.setText(((Double) _r3.get_age()).toString());
+        textBox_age.setText(((Double) _r3.getAge()).toString());
         
         // Table des reactifs
         Object[][] donnees_reactifs = {
@@ -809,10 +809,10 @@ public class WndEditBehavior extends javax.swing.JDialog {
         }
         // Valeur de age
         try {
-            _r3.set_age(Double.parseDouble(textBox_age.getText()));
+            _r3.setAge(Double.parseDouble(textBox_age.getText()));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
-            _r3.set_age(0);
+            _r3.setAge(0);
         }
         
         String etiq = textBox_etiquette.getText();

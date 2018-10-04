@@ -138,8 +138,8 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     public void newEnvLoaded(Serialized saved, HashMap<String, Integer> entitesBook) {
         dataGridView_entites.clearSelection();
         this.pictureBox_Env.setIcon(null);
-        _ListManipulesNoeuds = saved.getListManipulesNoeuds();
-        _ListManipulesReactions = saved.getListManipulesReactions();
+        _ListManipulesNoeuds = saved.getListManipulesAgents();
+        _ListManipulesReactions = saved.getListManipulesBehaviors();
         instances = new AllInstances(saved.getInstances());
         setDico_courbes((HashMap<String, Integer>) entitesBook.clone());
         setParameters(saved.getParameters());

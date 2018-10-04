@@ -413,8 +413,8 @@ public class Model {
             this.parameters = saved.getParameters();
             Lang.getInstance().setLang(parameters.getLang());
             instances = new AllInstances(saved.getInstances());
-            entities = saved.getListManipulesNoeuds();
-            behaviors = saved.getListManipulesReactions();
+            entities = saved.getListManipulesAgents();
+            behaviors = saved.getListManipulesBehaviors();
             for (final IhmListener listen : listeners.getListeners(IhmListener.class)) {
                 listen.newEnvLoaded(saved, getInitialState());
             }
