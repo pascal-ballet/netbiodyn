@@ -24,7 +24,7 @@ import java.util.ArrayList;
  *
  * @author user
  */
-public class InstanceReaction {
+public class InstanceBehavior {
     //public Environnement _env;    
     public int _type = 0;
     public Behavior _behavior = null;
@@ -79,17 +79,14 @@ public class InstanceReaction {
     public class actConnecterConnexel extends cdtAct  {
         String type_connexel, nom_connexel, type_reaxel1, nom_reaxel1, type_reaxel2, nom_reaxel2;
     }
-    public class actForce extends cdtAct  {
-        String type_reaxel, nom_reaxel;
-        double fx, fy, fz;
-    }
+    
     
     // Relation entre les noms et les entités ds l'env
     public ArrayList<String>             _reaxels_noms                = new ArrayList<String>();
-    public ArrayList<InstanceReaxel>     _reaxels_ident               = new ArrayList<InstanceReaxel>();
+    public ArrayList<InstanceAgent>      _reaxels_ident               = new ArrayList<InstanceAgent>();
     
     // Stockage des cdts & act
-    public ArrayList<cdtAct>                _lstToutesCdtAct        = new ArrayList<InstanceReaction.cdtAct>();
+    public ArrayList<cdtAct>                _lstToutesCdtAct        = new ArrayList<InstanceBehavior.cdtAct>();
     /*
     public ArrayList<cdtReaxelEn>           _lstCdtReaxelEn         = new ArrayList<cdtReaxelEn>();
     public ArrayList<cdtReaxelEnRelatif>    _lstCdtReaxelEnRelatif  = new ArrayList<cdtReaxelEnRelatif>();
@@ -229,14 +226,14 @@ public class InstanceReaction {
         o.ordre = _lstToutesCdtAct.size(); _lstToutesCdtAct.add(o);
     }
     public void actForce(String type_reaxel, String nom_reaxel, double fx, double fy, double fz) {
-        actForce o = new actForce();
+        /*actForce o = new actForce();
         o.type_reaxel = type_reaxel;
         o.nom_reaxel = nom_reaxel;
         o.fx = fx;
         o.fy = fy;
         o.fz = fz;
         //_lstActForce.add(o);        
-        o.ordre = _lstToutesCdtAct.size(); _lstToutesCdtAct.add(o);
+        o.ordre = _lstToutesCdtAct.size(); _lstToutesCdtAct.add(o);*/
     }
     
     // Utilitaires => A placer dans l'env
@@ -269,8 +266,8 @@ public class InstanceReaction {
         _lstActForce.clear();
     }*/
 
-    public InstanceReaction cloner() {
-        InstanceReaction clone = new InstanceReaction();
+    public InstanceBehavior cloner() {
+        InstanceBehavior clone = new InstanceBehavior();
         clone._nom = _nom;
         clone._type = _type;
         clone._behavior = _behavior;

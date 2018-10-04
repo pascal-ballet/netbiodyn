@@ -46,7 +46,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import netbiodyn.AllInstances;
 import netbiodyn.util.Serialized;
-import netbiodyn.InstanceReaxel;
+import netbiodyn.InstanceAgent;
 import netbiodyn.Behavior;
 import netbiodyn.Entity;
 
@@ -68,7 +68,7 @@ public class JOGL2Setup_GLJPanel extends GLJPanel implements IhmListener, GLEven
     private int tailleY;
     private int tailleZ;
 
-    private ArrayList<InstanceReaxel> reaxels;
+    private ArrayList<InstanceAgent> reaxels;
 
     /**
      * constructor to set up the GUI for this Component
@@ -78,7 +78,7 @@ public class JOGL2Setup_GLJPanel extends GLJPanel implements IhmListener, GLEven
      * @param Z
      * @param reaxels
      */
-    public JOGL2Setup_GLJPanel(int X, int Y, int Z, ArrayList<InstanceReaxel> reaxels) {
+    public JOGL2Setup_GLJPanel(int X, int Y, int Z, ArrayList<InstanceAgent> reaxels) {
         this.addGLEventListener(this);
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
@@ -284,7 +284,7 @@ public class JOGL2Setup_GLJPanel extends GLJPanel implements IhmListener, GLEven
         // Render the particles
         for (int i = 0; i < getReaxels().size(); i++) {
             //if (particles[i].active) {
-            InstanceReaxel rea = getReaxels().get(i);
+            InstanceAgent rea = getReaxels().get(i);
             if (!rea.isInvisible()) {
 
             // Draw the particle using our RGB values, fade the particle based on it's life
@@ -560,11 +560,11 @@ public class JOGL2Setup_GLJPanel extends GLJPanel implements IhmListener, GLEven
         return tailleZ;
     }
 
-    public ArrayList<InstanceReaxel> getReaxels() {
+    public ArrayList<InstanceAgent> getReaxels() {
         return reaxels;
     }
 
-    public void setReaxels(ArrayList<InstanceReaxel> reaxels) {
+    public void setReaxels(ArrayList<InstanceAgent> reaxels) {
         this.reaxels = reaxels;
     }
 

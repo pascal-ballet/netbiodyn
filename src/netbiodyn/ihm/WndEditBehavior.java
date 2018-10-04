@@ -40,7 +40,7 @@ import netbiodyn.util.Lang;
  *
  * @author ballet
  */
-public class WndEditReaction extends javax.swing.JDialog {
+public class WndEditBehavior extends javax.swing.JDialog {
 
     boolean _env_affiche3D = false;
     public Behavior _r3 = null;
@@ -54,7 +54,7 @@ public class WndEditReaction extends javax.swing.JDialog {
      * @param entities
      * @param behaviours
      */
-    public WndEditReaction(ArrayList<Entity> entities, ArrayList<Behavior> behaviours) {
+    public WndEditBehavior(ArrayList<Entity> entities, ArrayList<Behavior> behaviours) {
         this.setModal(true);
         lstCmpt=behaviours;
         this.entities=entities;                
@@ -247,12 +247,17 @@ public class WndEditReaction extends javax.swing.JDialog {
             if (dataGridView_produits.getValueAt(i, 0).equals("-") && !(dataGridView_reactifs.getValueAt(i, 0).equals("*"))) {
                 dataGridView_produits.setValueAt("0", i, 0);
             }
-
+            if( dataGridView_reactifs.getValueAt(i, 0).equals("*") ) {
+                if(jComboBoxOrigine1.getSelectedIndex() == i+1) jComboBoxOrigine1.setSelectedIndex(0);
+                if(jComboBoxOrigine2.getSelectedIndex() == i+1) jComboBoxOrigine2.setSelectedIndex(0);
+                if(jComboBoxOrigine3.getSelectedIndex() == i+1) jComboBoxOrigine3.setSelectedIndex(0);
+            }
         }
+
 
     }
 
-    public void WndCliEditReaction3_Load(Behavior behaviour) {
+    public void LoadBehavior(Behavior behaviour) {
         if(behaviour == null){
             _r3=new Behavior();
         }
@@ -268,6 +273,7 @@ public class WndEditReaction extends javax.swing.JDialog {
             jLabelProduits.setText("Produits");
             button_annuler.setText("Annuler");
             jLabelReactifs.setText("Réactifs");
+            jLabelOrigine.setText("Origine");
         } else {
             jLabelNom.setText("Name");
             jLabelComportement.setText("Behaviour");
@@ -276,8 +282,9 @@ public class WndEditReaction extends javax.swing.JDialog {
             jLabelProduits.setText("Products");
             button_annuler.setText("Cancel");
             jLabelReactifs.setText("Reactives");
+            jLabelOrigine.setText("Origin");
         }
-
+        
         this.jPanel_cplx.setVisible(false);
         jScrollPane4.setVisible(false);
 
@@ -572,7 +579,7 @@ public class WndEditReaction extends javax.swing.JDialog {
         getContentPane().add(jLabelNom);
         jLabelNom.setBounds(10, 45, 80, 20);
 
-        jButton1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Lucida Grande", 0, 13)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 0, 0));
         jButton1.setText("x");
         jButton1.setToolTipText("Clean the line");
@@ -585,7 +592,7 @@ public class WndEditReaction extends javax.swing.JDialog {
         getContentPane().add(jButton1);
         jButton1.setBounds(10, 190, 40, 30);
 
-        jButton2.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Lucida Grande", 0, 13)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 0, 0));
         jButton2.setText("x");
         jButton2.setToolTipText("Clean the line");
@@ -598,7 +605,7 @@ public class WndEditReaction extends javax.swing.JDialog {
         getContentPane().add(jButton2);
         jButton2.setBounds(10, 230, 40, 30);
 
-        jButton3.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        jButton3.setFont(new java.awt.Font("Lucida Grande", 0, 13)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 0, 0));
         jButton3.setText("x");
         jButton3.setToolTipText("Clean the line");
@@ -665,39 +672,46 @@ public class WndEditReaction extends javax.swing.JDialog {
         textBox_age.setBounds(100, 110, 150, 21);
 
         jLabelR3.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        jLabelR3.setForeground(new java.awt.Color(153, 0, 153));
         jLabelR3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelR3.setText("R3="); // NOI18N
         getContentPane().add(jLabelR3);
         jLabelR3.setBounds(50, 271, 30, 15);
 
         jLabelR1.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        jLabelR1.setForeground(new java.awt.Color(153, 0, 153));
         jLabelR1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelR1.setText("R1="); // NOI18N
         getContentPane().add(jLabelR1);
         jLabelR1.setBounds(50, 200, 30, 15);
 
         jLabelR2.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        jLabelR2.setForeground(new java.awt.Color(153, 0, 153));
         jLabelR2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelR2.setText("R2="); // NOI18N
         getContentPane().add(jLabelR2);
         jLabelR2.setBounds(50, 236, 30, 15);
 
         jComboBoxOrigine1.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        jComboBoxOrigine1.setForeground(new java.awt.Color(153, 0, 153));
         jComboBoxOrigine1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "R1", "R2", "R3" }));
         getContentPane().add(jComboBoxOrigine1);
         jComboBoxOrigine1.setBounds(530, 196, 70, 30);
 
         jComboBoxOrigine2.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        jComboBoxOrigine2.setForeground(new java.awt.Color(153, 0, 153));
         jComboBoxOrigine2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "R1", "R2", "R3" }));
         getContentPane().add(jComboBoxOrigine2);
         jComboBoxOrigine2.setBounds(530, 230, 70, 30);
 
         jComboBoxOrigine3.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        jComboBoxOrigine3.setForeground(new java.awt.Color(153, 0, 153));
         jComboBoxOrigine3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "R1", "R2", "R3" }));
         getContentPane().add(jComboBoxOrigine3);
         jComboBoxOrigine3.setBounds(530, 264, 70, 30);
 
         jLabelOrigine.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        jLabelOrigine.setForeground(new java.awt.Color(153, 0, 153));
         jLabelOrigine.setText("Origine"); // NOI18N
         getContentPane().add(jLabelOrigine);
         jLabelOrigine.setBounds(540, 150, 63, 15);
@@ -976,12 +990,12 @@ public class WndEditReaction extends javax.swing.JDialog {
     private void textBox_etiquetteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textBox_etiquetteKeyTyped
         // TODO add your handling code here:
         char c = evt.getKeyChar();
-        if (c == '\\' || c == '/' || c == ':' || c == ' ' || c == '*' || c == '?' || c == '\"' || c == '<' || c == '>' || c == '|') {
+        if (c == '\\' || c == '*' || c == '?' || c == '\"' ) {
             evt.consume();
             if (Lang.getInstance().getLang().equals("FR")) {
-                JOptionPane.showMessageDialog(this, "Les caracteres \\ / : ESPACE * ? \" < > , et | sont interdits. Merci de votre comprehension", "ATTENTION", JOptionPane.INFORMATION_MESSAGE, null);
+                JOptionPane.showMessageDialog(this, "Les caracteres \\ * ? \" sont interdits. Merci de votre comprehension", "ATTENTION", JOptionPane.INFORMATION_MESSAGE, null);
             } else {
-                JOptionPane.showMessageDialog(this, "Characteres \\ / : SPACE * ? \" < > , and | are forbiden.", "ATTENTION", JOptionPane.INFORMATION_MESSAGE, null);
+                JOptionPane.showMessageDialog(this, "Characteres \\ * ? \" are forbiden.", "ATTENTION", JOptionPane.INFORMATION_MESSAGE, null);
             }
 
         }
@@ -1048,6 +1062,7 @@ public class WndEditReaction extends javax.swing.JDialog {
         // TODO add your handling code here:
         dataGridView_reactifs.setValueAt("*", 0, 0);
         dataGridView_produits.setValueAt("-", 0, 0);
+        jComboBoxOrigine1.setSelectedIndex(0);
         this.tracerPositionCellules(this.getGraphics(), false);
         repaint();
     }//GEN-LAST:event_jButton1MouseClicked
@@ -1055,6 +1070,7 @@ public class WndEditReaction extends javax.swing.JDialog {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         dataGridView_reactifs.setValueAt("*", 1, 0);
         dataGridView_produits.setValueAt("-", 1, 0);
+        jComboBoxOrigine2.setSelectedIndex(0);
         this.tracerPositionCellules(this.getGraphics(), false);
         repaint();
     }//GEN-LAST:event_jButton2MouseClicked
@@ -1062,6 +1078,7 @@ public class WndEditReaction extends javax.swing.JDialog {
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         dataGridView_reactifs.setValueAt("*", 2, 0);
         dataGridView_produits.setValueAt("-", 2, 0);
+        jComboBoxOrigine3.setSelectedIndex(0);
         this.tracerPositionCellules(this.getGraphics(), false);
         repaint();
     }//GEN-LAST:event_jButton3MouseClicked

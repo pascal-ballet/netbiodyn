@@ -42,7 +42,7 @@ import netbiodyn.util.RandomGen;
  *
  * @author ballet
  */
-public class WndEditNoeud extends javax.swing.JDialog {
+public class WndEditAgent extends javax.swing.JDialog {
 
     private final ArrayList<Entity> entities;
     private final ArrayList<Behavior> behaviours;
@@ -57,7 +57,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
      * @param entities
      * @param behaviours
      */
-    public WndEditNoeud(ArrayList<Entity> entities, ArrayList<Behavior> behaviours) {
+    public WndEditAgent(ArrayList<Entity> entities, ArrayList<Behavior> behaviours) {
         this.setModal(true);
         this.entities = entities;
         this.behaviours = behaviours;
@@ -565,12 +565,12 @@ public class WndEditNoeud extends javax.swing.JDialog {
     private void textBox1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textBox1KeyTyped
         // TODO add your handling code here:
         char c = evt.getKeyChar();
-        if (c == '\\' || c == '/' || c == ':' || c == ' ' || c == '*' || c == '?' || c == '\"' || c == '<' || c == '>' || c == '|') {
+        if (c == '\\' || c == '*' || c == '?' || c == '\"' ) {
             evt.consume();
             if (Lang.getInstance().getLang().equals("FR")) {
-                JOptionPane.showMessageDialog(this, "Les caracteres \\ / : ESPACE * ? \" < > , et | sont interdits. Merci de votre comprehension", "ATTENTION", JOptionPane.INFORMATION_MESSAGE, null);
+                JOptionPane.showMessageDialog(this, "Les caracteres \\ * ? \" sont interdits. Merci de votre comprehension", "ATTENTION", JOptionPane.INFORMATION_MESSAGE, null);
             } else {
-                JOptionPane.showMessageDialog(this, "Characteres \\ / : SPACE * ? \" < > , and | are forbiden.", "ATTENTION", JOptionPane.INFORMATION_MESSAGE, null);
+                JOptionPane.showMessageDialog(this, "Characteres \\ * ? \" are forbiden.", "ATTENTION", JOptionPane.INFORMATION_MESSAGE, null);
             }
         }
         if (c == '\n') {

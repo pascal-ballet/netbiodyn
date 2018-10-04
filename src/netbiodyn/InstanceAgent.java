@@ -31,7 +31,7 @@ import java.awt.Image;
  *
  * @author ballet
  */
-public class InstanceReaxel extends InstanceSimplexel implements Cloneable{
+public class InstanceAgent extends InstanceSimplexel implements Cloneable{
 
     private int _x, _y, _z;
     private Color _couleur = Color.BLUE;
@@ -56,15 +56,15 @@ public class InstanceReaxel extends InstanceSimplexel implements Cloneable{
     private String _nom;
     private Image _image = null;
     
-    public InstanceReaxel(){
+    public InstanceAgent(){
         _x=-1;
         _y=-1;
         _z=-1;
     }
 
     @Override
-    public InstanceReaxel clone() {
-        InstanceReaxel clone = new InstanceReaxel();
+    public InstanceAgent clone() {
+        InstanceAgent clone = new InstanceAgent();
         clone._couleur = _couleur;
         clone._taille = _taille;
         clone._demie_vie = _demie_vie;
@@ -80,8 +80,8 @@ public class InstanceReaxel extends InstanceSimplexel implements Cloneable{
         return clone;
     }
     
-    public static InstanceReaxel CreerReaxel(Entity cli) {
-        InstanceReaxel r = new InstanceReaxel();
+    public static InstanceAgent CreerReaxel(Entity cli) {
+        InstanceAgent r = new InstanceAgent();
         r._couleur = cli.Couleur;
         r._taille = cli._taille;
         r._forme = cli._forme;
@@ -102,8 +102,8 @@ public class InstanceReaxel extends InstanceSimplexel implements Cloneable{
     
     @Override
     public boolean equals(Object o){
-        if(o instanceof InstanceReaxel){
-            InstanceReaxel r=(InstanceReaxel)o;
+        if(o instanceof InstanceAgent){
+            InstanceAgent r=(InstanceAgent)o;
             return ((r.getX() == getX())&&(r.getY()==getY())&&(r.getZ()==getZ())&&(r.getNom().equals(getNom())));
         }
         return false;

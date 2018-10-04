@@ -46,7 +46,7 @@ import javax.swing.Icon;
 import javax.swing.JList;
 import netbiodyn.AllInstances;
 import netbiodyn.util.Serialized;
-import netbiodyn.InstanceReaxel;
+import netbiodyn.InstanceAgent;
 import netbiodyn.Behavior;
 import netbiodyn.Entity;
 import netbiodyn.ProtoSimplexel;
@@ -97,7 +97,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     private boolean _mouse_left_down = false;
     private boolean _mouse_right_down = false;
     private boolean _mouse_zoom_down = false;
-    private ArrayList<InstanceReaxel> _cubes_selectionnes = null;
+    private ArrayList<InstanceAgent> _cubes_selectionnes = null;
 //    private ArrayList<elementCourbe> _courbes = new ArrayList<>();
     private final SimulationCurves curves;
 
@@ -1419,7 +1419,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         }
     }
 
-    public void unselect(InstanceReaxel r) {
+    public void unselect(InstanceAgent r) {
         if (_cubes_selectionnes == null || r == null) {
             return;
         }
@@ -1908,7 +1908,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         int new_x = (int) windowToUniverse(_observed_left, _observed_left + _observed_width, pictureBox_Env.getWidth(), mouseX);
         int new_y = (int) windowToUniverse(_observed_top, _observed_top + _observed_height, pictureBox_Env.getHeight(), mouseY);
         if (new_x >= 0 && new_y >= 0 && new_x < getTailleX() && new_y < getTailleY()) {
-            InstanceReaxel r = instances.getFast(new_x, new_y, jSliderZ.getValue());
+            InstanceAgent r = instances.getFast(new_x, new_y, jSliderZ.getValue());
             if (r == null) {
                 try {
                     JOptionPane.showMessageDialog(this, "Simulation :\n" + parameters.getDescription());
@@ -2281,7 +2281,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         for (int i = 0; i < getTailleX(); i++) {
             for (int j = 0; j < getTailleY(); j++) {
                 // Affichage des cubes
-                InstanceReaxel c = instances.getFast(i, j, k);
+                InstanceAgent c = instances.getFast(i, j, k);
                 if (c != null) {
                     if (!c.isInvisible()) {
                         if (c.getImage() == null) {
@@ -2619,15 +2619,15 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         this.zoomAgain();
     }
 
-    public ArrayList<InstanceReaxel> getCubes_selectionnes() {
+    public ArrayList<InstanceAgent> getCubes_selectionnes() {
         return _cubes_selectionnes;
     }
 
-    public void setCubes_selectionnes(ArrayList<InstanceReaxel> _cubes_selectionnes) {
+    public void setCubes_selectionnes(ArrayList<InstanceAgent> _cubes_selectionnes) {
         this._cubes_selectionnes = _cubes_selectionnes;
     }
 
-    public void addCube_selectionnes(InstanceReaxel _cube_selectionne) {
+    public void addCube_selectionnes(InstanceAgent _cube_selectionne) {
         if (_cubes_selectionnes == null) {
             _cubes_selectionnes = new ArrayList<>();
         }

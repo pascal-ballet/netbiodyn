@@ -5,7 +5,7 @@
 package netbiodyn.util;
 
 import java.util.ArrayList;
-import netbiodyn.InstanceReaxel;
+import netbiodyn.InstanceAgent;
 
 /**
  *
@@ -126,7 +126,7 @@ public class UtilPoint3D {
         return lst_pts;
     }
 
-    public static UtilPoint3D centreDeGravite(ArrayList<InstanceReaxel> lst) {
+    public static UtilPoint3D centreDeGravite(ArrayList<InstanceAgent> lst) {
         UtilPoint3D pt = new UtilPoint3D(0, 0, 0);
         int nb = lst.size();
         for (int i = 0; i < nb; i++) {

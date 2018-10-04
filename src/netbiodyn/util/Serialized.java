@@ -9,7 +9,7 @@ import netbiodyn.ihm.Env_Parameters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import netbiodyn.AllInstances;
-import netbiodyn.InstanceReaxel;
+import netbiodyn.InstanceAgent;
 import netbiodyn.Behavior;
 import netbiodyn.Entity;
 
@@ -102,10 +102,10 @@ public class Serialized {
         this.entitesBook = entitesBook;
     }
 
-    public InstanceReaxel CreerReaxel(String etiquette) {
+    public InstanceAgent CreerReaxel(String etiquette) {
         for (Entity reaxel : _ListManipulesNoeuds) {
             if (reaxel.TrouveEtiquette(etiquette) >= 0) {
-                return InstanceReaxel.CreerReaxel(reaxel);
+                return InstanceAgent.CreerReaxel(reaxel);
             }
         }
         return null;
@@ -120,7 +120,7 @@ public class Serialized {
     }
 
     public void AjouterReaxel(int i, int j, int k, Entity cli) {
-        InstanceReaxel r = InstanceReaxel.CreerReaxel(cli);
+        InstanceAgent r = InstanceAgent.CreerReaxel(cli);
         while (i < 0) {
             i += parameters.getX();
         }

@@ -88,7 +88,7 @@ public class Simulator {
         // 1/2 vie
         // --------
         for (int pos_in_list = instances.getSize() - 1; pos_in_list >= 0; pos_in_list--) {
-            InstanceReaxel c = instances.getInList(pos_in_list);//_matrice_cubes[i, j];
+            InstanceAgent c = instances.getInList(pos_in_list);//_matrice_cubes[i, j];
             // Gestion de la demie-vie
             if (c.getDemie_vie() > 0 && !c.isSelectionne()) {
                 double proba_mort = 1 - Math.pow(0.5, 1.0 / c.getDemie_vie());
@@ -128,7 +128,7 @@ public class Simulator {
         }
 
         // Concatenation de toutes les reactions possibles
-        ArrayList<InstanceReaction> lst_rp = new ArrayList<>();
+        ArrayList<InstanceBehavior> lst_rp = new ArrayList<>();
         for (Behavior lst_react1 : lst_react) {
             lst_rp.addAll(lst_react1.getReactionsPossibles());
         }
@@ -137,7 +137,7 @@ public class Simulator {
         ArrayList<Integer> lst_int = RandomGen.getInstance().liste_entiers_melanges(lst_rp.size());
         // Execution du choix effectif des reactions
         for (int r = 0; r < lst_rp.size(); r++) {
-            InstanceReaction reaction_possible = lst_rp.get(lst_int.get(r));
+            InstanceBehavior reaction_possible = lst_rp.get(lst_int.get(r));
             // On tente d'appliquer la transformation
             boolean possible = true;
 
@@ -192,7 +192,7 @@ public class Simulator {
                             int xr = reaction_possible._reactifs_pos.get(reactif_origine).x;
                             int yr = reaction_possible._reactifs_pos.get(reactif_origine).y;
                             int zr = reaction_possible._reactifs_pos.get(reactif_origine).z;
-                            InstanceReaxel reactif = instances.getFast(xr, yr, zr);
+                            InstanceAgent reactif = instances.getFast(xr, yr, zr);
                             if ( reactif != null) {                                
                                 age = reactif.age;
                             }
@@ -217,7 +217,7 @@ public class Simulator {
 
         // Fin de l'application effective des reactions
         // Les agents qui n'ont pas reagit voit leur age augmente tout de meme
-        ArrayList<InstanceReaxel> lst_reax = instances.getList();
+        ArrayList<InstanceAgent> lst_reax = instances.getList();
         for(int a=0; a<lst_reax.size(); a++)
             lst_reax.get(a).age++;
         // On verse les réaxels qui n'ont pas réagit dans la liste future et dans la matrice future
@@ -293,7 +293,7 @@ public class Simulator {
 
     private void removeEntityInstances(String nom) {
         for (int c = instances.getSize() - 1; c >= 0; c--) {
-            InstanceReaxel cube = instances.getInList(c);
+            InstanceAgent cube = instances.getInList(c);
             if (cube.getNom().equals(nom)) {
                 instances.removeReaxel(cube);
             }
@@ -348,7 +348,7 @@ public class Simulator {
         ArrayList<Entity> reaxels = model.getListManipulesNoeuds();
         for (int n = 0; n < reaxels.size(); n++) {
             if (reaxels.get(n).TrouveEtiquette(etiquette) >= 0) {
-                InstanceReaxel r = InstanceReaxel.CreerReaxel(reaxels.get(n));
+                InstanceAgent r = InstanceAgent.CreerReaxel(reaxels.get(n));
                 r.setX(i);
                 r.setY(j);
                 r.setZ(k);
@@ -360,7 +360,7 @@ public class Simulator {
     }
 
     public String getType(int x, int y, int z) {
-        InstanceReaxel r = instances.getFast(x, y, z);
+        InstanceAgent r = instances.getFast(x, y, z);
         if (r != null) {
             return r.getNom();
         } else {
@@ -373,7 +373,7 @@ public class Simulator {
         ArrayList<Entity> lst_reaxels = model.getListManipulesNoeuds();
         for (int n = 0; n < lst_reaxels.size(); n++) {
             if (lst_reaxels.get(n).TrouveEtiquette(etiquette) >= 0) {
-                InstanceReaxel r = InstanceReaxel.CreerReaxel(lst_reaxels.get(n));
+                InstanceAgent r = InstanceAgent.CreerReaxel(lst_reaxels.get(n));
                 r.setX(i);
                 r.setY(j);
                 r.setZ(k);

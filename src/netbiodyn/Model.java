@@ -68,7 +68,7 @@ public class Model {
     }
 
     public String getType(int x, int y, int z) {
-        InstanceReaxel r = instances.getFast(x, y, z);
+        InstanceAgent r = instances.getFast(x, y, z);
         if (r != null) {
             return r.getNom();
         } else {
@@ -105,9 +105,9 @@ public class Model {
         instances.unselect(x, y, z);
     }
 
-    public void unselect(ArrayList<InstanceReaxel> cubes_selectionnes) {
+    public void unselect(ArrayList<InstanceAgent> cubes_selectionnes) {
         if (cubes_selectionnes != null) {
-            for (InstanceReaxel r : cubes_selectionnes) {
+            for (InstanceAgent r : cubes_selectionnes) {
                 unselect(r.getX(), r.getY(), r.getZ());
             }
         }
@@ -118,7 +118,7 @@ public class Model {
 
     }
 
-    public void deplacer(ArrayList<InstanceReaxel> _cubes_selectionnes, int new_x, int new_y, int new_z) {
+    public void deplacer(ArrayList<InstanceAgent> _cubes_selectionnes, int new_x, int new_y, int new_z) {
         System.out.println(_cubes_selectionnes.toString());
         this.unselect(_cubes_selectionnes);
         // Calcul du cdg de la liste de reaxels, si toutes les places sont libres
@@ -128,11 +128,11 @@ public class Model {
             int dy = cdg.y;
             int dz = cdg.z;
             // Vidage des emplacements initiaux
-            for (InstanceReaxel r : _cubes_selectionnes) {
+            for (InstanceAgent r : _cubes_selectionnes) {
                 instances.removeReaxel(r.getX(), r.getY(), r.getZ());
             }
             // Deplacement de tous les reaxels de l'ensemble
-            for (InstanceReaxel r : _cubes_selectionnes) {
+            for (InstanceAgent r : _cubes_selectionnes) {
                 if (instances.getFast(r.getX() + dx, r.getY() + dy, r.getZ() + dz) == null) {
                     r.setX(r.getX() + dx);
                     r.setY(r.getY() + dy);
@@ -146,7 +146,7 @@ public class Model {
         }
     }
 
-    private UtilPoint3D placeLibre(ArrayList<InstanceReaxel> lst, int xg1, int yg1, int zg1) {
+    private UtilPoint3D placeLibre(ArrayList<InstanceAgent> lst, int xg1, int yg1, int zg1) {
         if (lst == null) {
             return null;
         }
@@ -158,8 +158,8 @@ public class Model {
         int dz = zg1 - pt_g0.z;
         UtilPoint3D new_point = new UtilPoint3D(dx, dy, dz);
         // Verif que toutes les places sont libres
-        for (InstanceReaxel r : lst) {
-            InstanceReaxel rf = instances.getFast(r.getX() + dx, r.getY() + dy, r.getZ() + dz);
+        for (InstanceAgent r : lst) {
+            InstanceAgent rf = instances.getFast(r.getX() + dx, r.getY() + dy, r.getZ() + dz);
             if (rf != null) {
                 if (rf.isSelectionne() == false) {
                     return null;
@@ -297,7 +297,7 @@ public class Model {
         boolean changed = false;
         for (int n = 0; n < entities.size(); n++) {
             if (entities.get(n).TrouveEtiquette(etiquette) >= 0) {
-                InstanceReaxel r = InstanceReaxel.CreerReaxel(entities.get(n));
+                InstanceAgent r = InstanceAgent.CreerReaxel(entities.get(n));
                 r.setX(i);
                 r.setY(j);
                 r.setZ(k);
@@ -340,7 +340,7 @@ public class Model {
             }
             this.addEntityInstances(toAdd, nom);
         } else {
-            ArrayList<InstanceReaxel> removable = instances.getByName(nom);
+            ArrayList<InstanceAgent> removable = instances.getByName(nom);
             delta = delta * -1;
             int size = removable.size();
             if (delta >= size) {

@@ -6,7 +6,7 @@
 package netbiodyn.util;
 
 import netbiodyn.ihm.Environment;
-import netbiodyn.ihm.WndEditReaction;
+import netbiodyn.ihm.WndEditBehavior;
 import netbiodyn.ihm.WndEditElementDeReaction;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -34,7 +34,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import netbiodyn.ihm.Env_Parameters;
-import netbiodyn.InstanceReaxel;
+import netbiodyn.InstanceAgent;
 import netbiodyn.Behavior;
 import netbiodyn.ProtoBioDyn;
 import netbiodyn.Entity;
@@ -132,7 +132,7 @@ public class FileSaverLoader extends SaverLoader {
         try {
             out.write("Reaxels" + "\n");
             for (int i = 0; i < toSave.getInstances().getSize(); i++) {
-                InstanceReaxel r = toSave.getInstances().getInList(i);
+                InstanceAgent r = toSave.getInstances().getInList(i);
                 Integer x0, y0, z0;
                 x0 = r.getX();
                 y0 = r.getY();
@@ -209,7 +209,7 @@ public class FileSaverLoader extends SaverLoader {
             size = toSave.getInstances().getSize();
             out.writeInt(size);
             for (int i = 0; i < size; i++) {
-                InstanceReaxel r = toSave.getInstances().getInList(i);
+                InstanceAgent r = toSave.getInstances().getInList(i);
                 out.writeUTF(r.getNom());
                 out.writeInt(r.getX());
                 out.writeInt(r.getY());
@@ -703,7 +703,7 @@ public class FileSaverLoader extends SaverLoader {
         react3._positions = new ArrayList<>();
 
         boolean fin = false;
-        WndEditReaction tmp_wnd_react_cplx = new WndEditReaction(saved.getListManipulesNoeuds(), saved.getListManipulesReactions());
+        WndEditBehavior tmp_wnd_react_cplx = new WndEditBehavior(saved.getListManipulesNoeuds(), saved.getListManipulesReactions());
         while (fin == false) {
             String ligne = null;
             try {
