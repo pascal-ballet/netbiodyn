@@ -360,9 +360,9 @@ public class WndEditReaction extends javax.swing.JDialog {
         }
         
         // Origines des produits
-        jComboBoxOrigine1.setSelectedIndex(_r3._origine[0]) ;
-        jComboBoxOrigine2.setSelectedIndex(_r3._origine[1]) ;
-        jComboBoxOrigine3.setSelectedIndex(_r3._origine[2]) ;
+        jComboBoxOrigine1.setSelectedIndex(_r3._origine[0]+1) ;
+        jComboBoxOrigine2.setSelectedIndex(_r3._origine[1]+1) ;
+        jComboBoxOrigine3.setSelectedIndex(_r3._origine[2]+1) ;
                 
         // Ajout de l'element final pour la reaction complexe (FIN)
         WndEditElementDeReaction elt = null;
@@ -809,9 +809,9 @@ public class WndEditReaction extends javax.swing.JDialog {
         //_r3._description.setText(richTextBox_description.getText());
 
         // Origines
-        _r3._origine[0] = jComboBoxOrigine1.getSelectedIndex();
-        _r3._origine[1] = jComboBoxOrigine2.getSelectedIndex();
-        _r3._origine[2] = jComboBoxOrigine3.getSelectedIndex();
+        _r3._origine[0] = jComboBoxOrigine1.getSelectedIndex()-1;
+        _r3._origine[1] = jComboBoxOrigine2.getSelectedIndex()-1;
+        _r3._origine[2] = jComboBoxOrigine3.getSelectedIndex()-1;
         
         _r3.LblTitre.setVisible(true);
         _r3.LblTitre.setLocation(0, 0);

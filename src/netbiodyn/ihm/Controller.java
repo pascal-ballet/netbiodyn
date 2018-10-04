@@ -259,6 +259,7 @@ public class Controller {
         w._r3._reactifs.add("0");
         w._r3._produits.add("0");
         w._r3._produits.add(e._etiquettes);
+        w._r3._origine[1] = 0; // Le produit 1 a pour origine le reactif 0
         // Positions possible du deplacement
         String positions_seconde_ligne = w._r3._positions.get(1); // _positions: 0=no, 1=yes, 2=impossible. Defaut = "212101210" = "0Centre1Droite2Impo3Haut4Devant5Gauche6Impo7Bas8Derriere"        
         if(e.mvt_droite == true)    positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 1, '1'); else positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 1, '0');

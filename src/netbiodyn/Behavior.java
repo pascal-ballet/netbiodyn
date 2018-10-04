@@ -80,9 +80,9 @@ public class Behavior extends Moteur implements Externalizable {
         // Instanciation d'une entite vide
         entiteVide = new InstanceReaxel();
         entiteVide.setNom("0");
-        // Origine des produits mise a 0
+        // Origine des produits mise a -1 (pas d'origine)
         for(int i=0; i<_origine.length; i++)
-            _origine[i] = 0;
+            _origine[i] = -1;
     }
 
     @Override
@@ -375,6 +375,7 @@ public class Behavior extends Moteur implements Externalizable {
                     // Placement des produits en fonction de leur position dans les listes
                     if (espace_pour_produits == true) {
                         InstanceReaction rp = new InstanceReaction();
+                        rp._behavior = this;
                         _reactionsPossibles.add(rp);
 
                         // Remplacements

@@ -137,41 +137,41 @@ public class Simulator {
         ArrayList<Integer> lst_int = RandomGen.getInstance().liste_entiers_melanges(lst_rp.size());
         // Execution du choix effectif des reactions
         for (int r = 0; r < lst_rp.size(); r++) {
-            InstanceReaction rp = lst_rp.get(lst_int.get(r));
+            InstanceReaction reaction_possible = lst_rp.get(lst_int.get(r));
             // On tente d'appliquer la transformation
             boolean possible = true;
 
-            if (rp._type != 2) { // Reaction situees et semi-situee
+            if (reaction_possible._type != 2) { // Reaction situees et semi-situee
                 // Reactifs tjs présents ?
-                for (int i = 0; i < rp._reactifs_noms.size(); i++) {
-                    int x = rp._reactifs_pos.get(i).x;
-                    int y = rp._reactifs_pos.get(i).y;
-                    int z = rp._reactifs_pos.get(i).z;
+                for (int i = 0; i < reaction_possible._reactifs_noms.size(); i++) {
+                    int x = reaction_possible._reactifs_pos.get(i).x;
+                    int y = reaction_possible._reactifs_pos.get(i).y;
+                    int z = reaction_possible._reactifs_pos.get(i).z;
                     // Cas du vide
                     if (instances.getFast(x, y, z) == null) {
-                        if (!rp._reactifs_noms.get(i).equals("0")) { // La reaction veut un vide sinon...
+                        if (!reaction_possible._reactifs_noms.get(i).equals("0")) { // La reaction veut un vide sinon...
                             possible = false;
-                            i = rp._reactifs_noms.size();
+                            i = reaction_possible._reactifs_noms.size();
                         }
                     } else // cas non vide
                     {
-                        if (!instances.getFast(x, y, z).getNom().equals(rp._reactifs_noms.get(i))) { // La reaction peut trouver le bon nom de reaxel ds la présente matrice
+                        if (!instances.getFast(x, y, z).getNom().equals(reaction_possible._reactifs_noms.get(i))) { // La reaction peut trouver le bon nom de reaxel ds la présente matrice
                             possible = false;
-                            i = rp._reactifs_noms.size(); // mais s'il n'y est pas, il n'y est pas
+                            i = reaction_possible._reactifs_noms.size(); // mais s'il n'y est pas, il n'y est pas
                         }
                     }
                 }
 
                 // Place encore là pour les produits ?
                 if (possible == true) {
-                    for (int i = 0; i < rp._produits_noms.size(); i++) {
-                        int x = rp._produits_pos.get(i).x;
-                        int y = rp._produits_pos.get(i).y;
-                        int z = rp._produits_pos.get(i).z;
+                    for (int i = 0; i < reaction_possible._produits_noms.size(); i++) {
+                        int x = reaction_possible._produits_pos.get(i).x;
+                        int y = reaction_possible._produits_pos.get(i).y;
+                        int z = reaction_possible._produits_pos.get(i).z;
                         if (instancesFutur.getFast(x, y, z) != null) { // Si espace occupé...
-                            if (!rp._produits_noms.get(i).equals("")) { // et si volonté d'y placer un produit alors impossible !
+                            if (!reaction_possible._produits_noms.get(i).equals("")) { // et si volonté d'y placer un produit alors impossible !
                                 possible = false;
-                                i = rp._produits_noms.size();
+                                i = reaction_possible._produits_noms.size();
                             }
                         }
                     }
@@ -180,45 +180,32 @@ public class Simulator {
                 // On effectue la reaction si tjs possible
                 if (possible == true) {
                     // on ajoute les produits dans la matrice future
-                    for (int i = 0; i < rp._produits_noms.size(); i++) {
-                        String nom = rp._produits_noms.get(i);
-                        int x = rp._produits_pos.get(i).x;
-                        int y = rp._produits_pos.get(i).y;
-                        int z = rp._produits_pos.get(i).z;
-                            // Choix de l'age (pour la continuite entre 2 reactifs et produits)
-                            // Produits         Reactifs (du - au + prioritaire)
-                            //    0         <=     2   1   0  (le produit 0 prendra préférentiellement l'age du reactif 0 (le 1 voir le 2 en dernier choix - si c'est le meme type d'agent bien sur) )
-                            //    1         <=     0   2   1  (le produit 0 prendra préférentiellement l'age du reactif 0 (le 1 voir le 2 en dernier choix - si c'est le meme type d'agent bien sur) )
-                            //    2         <=     1   0   2  (le produit 0 prendra préférentiellement l'age du reactif 0 (le 1 voir le 2 en dernier choix - si c'est le meme type d'agent bien sur) )
-                            double age = 0;
-                            InstanceReaxel[] reac = new InstanceReaxel[3];
-                            if(rp._reactifs_pos.size() > (2+i)%3) {
-                                int rpos = (2+i)%3;
-                                reac[rpos] = instances.getFast(rp._reactifs_pos.get(rpos).x, rp._reactifs_pos.get(rpos).y, rp._reactifs_pos.get(rpos).z);
-                                if(nom.equals(reac[rpos].getNom()))
-                                    age = reac[rpos].age;// peu prioritaire
+                    for (int p = 0; p < reaction_possible._produits_noms.size(); p++) { // p = numero du produit (0,1 ou 2)
+                        String nom = reaction_possible._produits_noms.get(p);
+                        int xprod = reaction_possible._produits_pos.get(p).x;
+                        int yprod = reaction_possible._produits_pos.get(p).y;
+                        int zprod = reaction_possible._produits_pos.get(p).z;
+                        // Choix de l'age (pour la continuite entre un reactif et un produit)
+                        double age = 0;
+                        int reactif_origine = reaction_possible._behavior._origine[p]; // -1 => pas d'origine, 0 => origine reactif 0, etc
+                        if( reactif_origine >= 0 && reactif_origine < reaction_possible._reactifs_noms.size() ) {
+                            int xr = reaction_possible._reactifs_pos.get(reactif_origine).x;
+                            int yr = reaction_possible._reactifs_pos.get(reactif_origine).y;
+                            int zr = reaction_possible._reactifs_pos.get(reactif_origine).z;
+                            InstanceReaxel reactif = instances.getFast(xr, yr, zr);
+                            if ( reactif != null) {                                
+                                age = reactif.age;
                             }
-                            if(rp._reactifs_pos.size() > (1+i)%3) {
-                                int rpos = (1+i)%3;
-                                reac[rpos] = instances.getFast(rp._reactifs_pos.get(rpos).x, rp._reactifs_pos.get(rpos).y, rp._reactifs_pos.get(rpos).z);
-                                if(nom.equals(reac[rpos].getNom()))
-                                    age = reac[rpos].age;// moyen prioritaire
-                            }
-                            if(rp._reactifs_pos.size() > (0+i)%3) {
-                                int rpos = (0+i)%3;
-                                reac[rpos] = instances.getFast(rp._reactifs_pos.get(rpos).x, rp._reactifs_pos.get(rpos).y, rp._reactifs_pos.get(rpos).z);
-                                if(nom.equals(reac[rpos].getNom()))
-                                    age = reac[rpos].age;// tres prioritaire
-                            }
+                        }
                         
-                        this.AjouterFuturReaxel(x, y, z, nom, age);
+                        this.AjouterFuturReaxel(xprod, yprod, zprod, nom, age);
                     }
 
                     // on enleve les reactifs de la matrice courante pour eviter qu'il ne reagissent a nouveau (conservation E et matiere)
-                    for (int i = 0; i < rp._reactifs_noms.size(); i++) {
-                        int x = rp._reactifs_pos.get(i).x;
-                        int y = rp._reactifs_pos.get(i).y;
-                        int z = rp._reactifs_pos.get(i).z;
+                    for (int i = 0; i < reaction_possible._reactifs_noms.size(); i++) {
+                        int x = reaction_possible._reactifs_pos.get(i).x;
+                        int y = reaction_possible._reactifs_pos.get(i).y;
+                        int z = reaction_possible._reactifs_pos.get(i).z;
                         if (instances.getFast(x, y, z) != null) {
                             instances.removeReaxel(x, y, z);
                         }

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 public class InstanceReaction {
     //public Environnement _env;    
     public int _type = 0;
+    public Behavior _behavior = null;
     
     public class cdtAct {
         public int ordre = 0;
@@ -272,6 +273,7 @@ public class InstanceReaction {
         InstanceReaction clone = new InstanceReaction();
         clone._nom = _nom;
         clone._type = _type;
+        clone._behavior = _behavior;
         /*clone._lstCdtReaxelEn           = _lstCdtReaxelEn;
         clone._lstCdtReaxelEnRelatif    = _lstCdtReaxelEnRelatif;
         clone._lstCdtReaxelTouche       = _lstCdtReaxelTouche;
