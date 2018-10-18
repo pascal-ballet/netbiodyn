@@ -123,7 +123,7 @@ public class Controller {
         frame.setName("NetBioDyn");
         frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         frame.setGlassPane(glass);
-        frame.setTitle("NetBioDyn - UEB - UBO - Lab STICC - IHSEV - Pascal Ballet - Free Software under GPL License");
+        frame.setTitle("NetBioDyn - UBO - LaTIM - LabSTICC - Pascal Ballet - Free Software under GPL License");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
 
