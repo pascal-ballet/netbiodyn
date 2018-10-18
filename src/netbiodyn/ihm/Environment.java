@@ -42,7 +42,6 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
-import javax.swing.Icon;
 import javax.swing.JList;
 import netbiodyn.AllInstances;
 import netbiodyn.util.Serialized;
@@ -951,6 +950,11 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         pictureBox_courbes.setBackground(new java.awt.Color(255, 255, 255));
         pictureBox_courbes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pictureBox_courbes.setPreferredSize(new java.awt.Dimension(200, 200));
+        pictureBox_courbes.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                pictureBox_courbesMouseMoved(evt);
+            }
+        });
 
         javax.swing.GroupLayout pictureBox_courbesLayout = new javax.swing.GroupLayout(pictureBox_courbes);
         pictureBox_courbes.setLayout(pictureBox_courbesLayout);
@@ -1886,6 +1890,11 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
             dessinerCourbes();
         }
     }//GEN-LAST:event_abscissaBoxActionPerformed
+
+    private void pictureBox_courbesMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pictureBox_courbesMouseMoved
+        // Display coordinate info when moving the mouse in the curves
+        drawCoordinates();
+    }//GEN-LAST:event_pictureBox_courbesMouseMoved
 
     public void setZLabel() {
         jLabelZ.setText("Z=" + jSliderZ.getValue());
