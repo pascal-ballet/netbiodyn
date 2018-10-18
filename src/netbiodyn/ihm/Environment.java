@@ -80,7 +80,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     private String PARAM_fichier = null;
     private String _objet_presse = "";
 
-    // ATTRIBUTS
+    // Attributes
     private int _time = 0;
     private String lastSelected = "";
     private boolean wasSelected = false;
