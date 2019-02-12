@@ -66,7 +66,7 @@ public class WndAbout extends javax.swing.JDialog {
         jLabel3.setBounds(10, 40, 360, 14);
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel4.setText("Lab-STICC");
+        jLabel4.setText("LaTIM & Lab-STICC");
         jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel4MouseClicked(evt);

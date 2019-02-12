@@ -9,9 +9,9 @@ import netbiodyn.ihm.Env_Parameters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import netbiodyn.AllInstances;
-import netbiodyn.InstanceReaxel;
+import netbiodyn.InstanceAgent;
 import netbiodyn.Behavior;
-import netbiodyn.Entity;
+import netbiodyn.Agent;
 
 /**
  *
@@ -19,7 +19,7 @@ import netbiodyn.Entity;
  */
 public class Serialized {
 
-    private ArrayList<Entity> _ListManipulesNoeuds; // Entity types
+    private ArrayList<Agent> _ListManipulesNoeuds; // Entity types
     private ArrayList<Behavior> _ListManipulesReactions; // Behaviour
     private AllInstances instances;
 
@@ -42,19 +42,19 @@ public class Serialized {
         this.parameters=parameters;
     }
 
-    public ArrayList<Entity> getListManipulesNoeuds() {
-        ArrayList<Entity> proto = new ArrayList<>();
-        for (Entity r : _ListManipulesNoeuds) {
+    public ArrayList<Agent> getListManipulesAgents() {
+        ArrayList<Agent> proto = new ArrayList<>();
+        for (Agent r : _ListManipulesNoeuds) {
             proto.add(r.clone());
         }
         return proto;
     }
 
-    public void setListManipulesNoeuds(ArrayList<Entity> _ListManipulesNoeuds) {
+    public void setListManipulesNoeuds(ArrayList<Agent> _ListManipulesNoeuds) {
         this._ListManipulesNoeuds = _ListManipulesNoeuds;
     }
 
-    public void addProtoReaxel(Entity r) {
+    public void addProtoReaxel(Agent r) {
         _ListManipulesNoeuds.add(r);
     }
 
@@ -62,7 +62,7 @@ public class Serialized {
         _ListManipulesReactions.add(m);
     }
 
-    public ArrayList<Behavior> getListManipulesReactions() {
+    public ArrayList<Behavior> getListManipulesBehaviors() {
         ArrayList<Behavior> moteurs = new ArrayList<>();
         for (Behavior r : _ListManipulesReactions) {
             moteurs.add(r.clone());
@@ -102,25 +102,25 @@ public class Serialized {
         this.entitesBook = entitesBook;
     }
 
-    public InstanceReaxel CreerReaxel(String etiquette) {
-        for (Entity reaxel : _ListManipulesNoeuds) {
+    public InstanceAgent CreerReaxel(String etiquette) {
+        for (Agent reaxel : _ListManipulesNoeuds) {
             if (reaxel.TrouveEtiquette(etiquette) >= 0) {
-                return InstanceReaxel.CreerReaxel(reaxel);
+                return InstanceAgent.CreerReaxel(reaxel);
             }
         }
         return null;
     }
 
     public void AjouterReaxel(int i, int j, int k, String etiquette) {
-        for (Entity _ListManipulesNoeud : _ListManipulesNoeuds) {
+        for (Agent _ListManipulesNoeud : _ListManipulesNoeuds) {
             if (_ListManipulesNoeud.TrouveEtiquette(etiquette) >= 0) {
                 AjouterReaxel(i, j, k, _ListManipulesNoeud);
             }
         }
     }
 
-    public void AjouterReaxel(int i, int j, int k, Entity cli) {
-        InstanceReaxel r = InstanceReaxel.CreerReaxel(cli);
+    public void AjouterReaxel(int i, int j, int k, Agent cli) {
+        InstanceAgent r = InstanceAgent.CreerReaxel(cli);
         while (i < 0) {
             i += parameters.getX();
         }

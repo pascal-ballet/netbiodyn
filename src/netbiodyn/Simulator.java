@@ -88,7 +88,7 @@ public class Simulator {
         // 1/2 vie
         // --------
         for (int pos_in_list = instances.getSize() - 1; pos_in_list >= 0; pos_in_list--) {
-            InstanceReaxel c = instances.getInList(pos_in_list);//_matrice_cubes[i, j];
+            InstanceAgent c = instances.getInList(pos_in_list);//_matrice_cubes[i, j];
             // Gestion de la demie-vie
             if (c.getDemie_vie() > 0 && !c.isSelectionne()) {
                 double proba_mort = 1 - Math.pow(0.5, 1.0 / c.getDemie_vie());
@@ -128,7 +128,7 @@ public class Simulator {
         }
 
         // Concatenation de toutes les reactions possibles
-        ArrayList<InstanceReaction> lst_rp = new ArrayList<>();
+        ArrayList<InstanceBehavior> lst_rp = new ArrayList<>();
         for (Behavior lst_react1 : lst_react) {
             lst_rp.addAll(lst_react1.getReactionsPossibles());
         }
@@ -137,61 +137,75 @@ public class Simulator {
         ArrayList<Integer> lst_int = RandomGen.getInstance().liste_entiers_melanges(lst_rp.size());
         // Execution du choix effectif des reactions
         for (int r = 0; r < lst_rp.size(); r++) {
-            InstanceReaction rp = lst_rp.get(lst_int.get(r));
+            InstanceBehavior reaction_possible = lst_rp.get(lst_int.get(r));
             // On tente d'appliquer la transformation
             boolean possible = true;
 
-            if (rp._type != 2) { // Reaction situees et semi-situee
+            if (reaction_possible._type != 2) { // Reaction situees et semi-situee
                 // Reactifs tjs présents ?
-                for (int i = 0; i < rp._reactifs_noms.size(); i++) {
-                    int x = rp._reactifs_pos.get(i).x;
-                    int y = rp._reactifs_pos.get(i).y;
-                    int z = rp._reactifs_pos.get(i).z;
+                for (int i = 0; i < reaction_possible._reactifs_noms.size(); i++) {
+                    int x = reaction_possible._reactifs_pos.get(i).x;
+                    int y = reaction_possible._reactifs_pos.get(i).y;
+                    int z = reaction_possible._reactifs_pos.get(i).z;
                     // Cas du vide
                     if (instances.getFast(x, y, z) == null) {
-                        if (!rp._reactifs_noms.get(i).equals("0")) { // La reaction veut un vide sinon...
+                        if (!reaction_possible._reactifs_noms.get(i).equals("0")) { // La reaction veut un vide sinon...
                             possible = false;
-                            i = rp._reactifs_noms.size();
+                            i = reaction_possible._reactifs_noms.size();
                         }
                     } else // cas non vide
                     {
-                        if (!instances.getFast(x, y, z).getNom().equals(rp._reactifs_noms.get(i))) { // La reaction peut trouver le bon nom de reaxel ds la présente matrice
+                        if (!instances.getFast(x, y, z).getNom().equals(reaction_possible._reactifs_noms.get(i))) { // La reaction peut trouver le bon nom de reaxel ds la présente matrice
                             possible = false;
-                            i = rp._reactifs_noms.size(); // mais s'il n'y est pas, il n'y est pas
+                            i = reaction_possible._reactifs_noms.size(); // mais s'il n'y est pas, il n'y est pas
                         }
                     }
                 }
 
                 // Place encore là pour les produits ?
                 if (possible == true) {
-                    for (int i = 0; i < rp._produits_noms.size(); i++) {
-                        int x = rp._produits_pos.get(i).x;
-                        int y = rp._produits_pos.get(i).y;
-                        int z = rp._produits_pos.get(i).z;
+                    for (int i = 0; i < reaction_possible._produits_noms.size(); i++) {
+                        int x = reaction_possible._produits_pos.get(i).x;
+                        int y = reaction_possible._produits_pos.get(i).y;
+                        int z = reaction_possible._produits_pos.get(i).z;
                         if (instancesFutur.getFast(x, y, z) != null) { // Si espace occupé...
-                            if (!rp._produits_noms.get(i).equals("")) { // et si volonté d'y placer un produit alors impossible !
+                            if (!reaction_possible._produits_noms.get(i).equals("")) { // et si volonté d'y placer un produit alors impossible !
                                 possible = false;
-                                i = rp._produits_noms.size();
+                                i = reaction_possible._produits_noms.size();
                             }
                         }
                     }
                 }
 
-                // On effectue la transformation si tjs possible
+                // On effectue la reaction si tjs possible
                 if (possible == true) {
                     // on ajoute les produits dans la matrice future
-                    for (int i = 0; i < rp._produits_noms.size(); i++) {
-                        int x = rp._produits_pos.get(i).x;
-                        int y = rp._produits_pos.get(i).y;
-                        int z = rp._produits_pos.get(i).z;
-                        this.AjouterFuturReaxel(x, y, z, rp._produits_noms.get(i));
+                    for (int p = 0; p < reaction_possible._produits_noms.size(); p++) { // p = numero du produit (0,1 ou 2)
+                        String nom = reaction_possible._produits_noms.get(p);
+                        int xprod = reaction_possible._produits_pos.get(p).x;
+                        int yprod = reaction_possible._produits_pos.get(p).y;
+                        int zprod = reaction_possible._produits_pos.get(p).z;
+                        // Choix de l'age (pour la continuite entre un reactif et un produit)
+                        double age = 0;
+                        int reactif_origine = reaction_possible._behavior._origine[p]; // -1 => pas d'origine, 0 => origine reactif 0, etc
+                        if( reactif_origine >= 0 && reactif_origine < reaction_possible._reactifs_noms.size() ) {
+                            int xr = reaction_possible._reactifs_pos.get(reactif_origine).x;
+                            int yr = reaction_possible._reactifs_pos.get(reactif_origine).y;
+                            int zr = reaction_possible._reactifs_pos.get(reactif_origine).z;
+                            InstanceAgent reactif = instances.getFast(xr, yr, zr);
+                            if ( reactif != null) {                                
+                                age = reactif.age;
+                            }
+                        }
+                        
+                        this.AjouterFuturReaxel(xprod, yprod, zprod, nom, age);
                     }
 
                     // on enleve les reactifs de la matrice courante pour eviter qu'il ne reagissent a nouveau (conservation E et matiere)
-                    for (int i = 0; i < rp._reactifs_noms.size(); i++) {
-                        int x = rp._reactifs_pos.get(i).x;
-                        int y = rp._reactifs_pos.get(i).y;
-                        int z = rp._reactifs_pos.get(i).z;
+                    for (int i = 0; i < reaction_possible._reactifs_noms.size(); i++) {
+                        int x = reaction_possible._reactifs_pos.get(i).x;
+                        int y = reaction_possible._reactifs_pos.get(i).y;
+                        int z = reaction_possible._reactifs_pos.get(i).z;
                         if (instances.getFast(x, y, z) != null) {
                             instances.removeReaxel(x, y, z);
                         }
@@ -202,8 +216,12 @@ public class Simulator {
         }
 
         // Fin de l'application effective des reactions
+        // Les agents qui n'ont pas reagit voit leur age augmente tout de meme
+        ArrayList<InstanceAgent> lst_reax = instances.getList();
+        for(int a=0; a<lst_reax.size(); a++)
+            lst_reax.get(a).age++;
         // On verse les réaxels qui n'ont pas réagit dans la liste future et dans la matrice future
-        instancesFutur.setMatrixAndList(instances.getList());
+        instancesFutur.setMatrixAndList(lst_reax);
 
         instances = new AllInstances(instancesFutur.getList(), instancesFutur.getMatrix(), instancesFutur.getX(), instancesFutur.getY(), instancesFutur.getZ());
         this.setTime(getTime() + 1);
@@ -263,8 +281,8 @@ public class Simulator {
      */
     public HashMap<String, Integer> updateList() {
         HashMap<String, Integer> entities = instances.getBook();
-        ArrayList<Entity> reaxels = model.getListManipulesNoeuds();
-        for (Entity entity : reaxels) {
+        ArrayList<Agent> reaxels = model.getListManipulesNoeuds();
+        for (Agent entity : reaxels) {
             if (entities.containsKey(entity._etiquettes) == false) {
                 entities.put(entity._etiquettes, 0);
             }
@@ -275,7 +293,7 @@ public class Simulator {
 
     private void removeEntityInstances(String nom) {
         for (int c = instances.getSize() - 1; c >= 0; c--) {
-            InstanceReaxel cube = instances.getInList(c);
+            InstanceAgent cube = instances.getInList(c);
             if (cube.getNom().equals(nom)) {
                 instances.removeReaxel(cube);
             }
@@ -327,10 +345,10 @@ public class Simulator {
 
     private boolean AjouterReaxel(int i, int j, int k, String etiquette) {
         boolean changed = false;
-        ArrayList<Entity> reaxels = model.getListManipulesNoeuds();
+        ArrayList<Agent> reaxels = model.getListManipulesNoeuds();
         for (int n = 0; n < reaxels.size(); n++) {
             if (reaxels.get(n).TrouveEtiquette(etiquette) >= 0) {
-                InstanceReaxel r = InstanceReaxel.CreerReaxel(reaxels.get(n));
+                InstanceAgent r = InstanceAgent.CreerReaxel(reaxels.get(n));
                 r.setX(i);
                 r.setY(j);
                 r.setZ(k);
@@ -342,7 +360,7 @@ public class Simulator {
     }
 
     public String getType(int x, int y, int z) {
-        InstanceReaxel r = instances.getFast(x, y, z);
+        InstanceAgent r = instances.getFast(x, y, z);
         if (r != null) {
             return r.getNom();
         } else {
@@ -350,23 +368,24 @@ public class Simulator {
         }
     }
 
-    private boolean AjouterFuturReaxel(int i, int j, int k, String etiquette) {
+    private boolean AjouterFuturReaxel(int i, int j, int k, String etiquette, double age) {
         boolean changed = false;
-        ArrayList<Entity> reaxels = model.getListManipulesNoeuds();
-        for (int n = 0; n < reaxels.size(); n++) {
-            if (reaxels.get(n).TrouveEtiquette(etiquette) >= 0) {
-                InstanceReaxel r = InstanceReaxel.CreerReaxel(reaxels.get(n));
+        ArrayList<Agent> lst_reaxels = model.getListManipulesNoeuds();
+        for (int n = 0; n < lst_reaxels.size(); n++) {
+            if (lst_reaxels.get(n).TrouveEtiquette(etiquette) >= 0) {
+                InstanceAgent r = InstanceAgent.CreerReaxel(lst_reaxels.get(n));
                 r.setX(i);
                 r.setY(j);
                 r.setZ(k);
+                r.age = age+1;
                 changed = instancesFutur.addReaxel(r);
-                n = reaxels.size();
+                n = lst_reaxels.size();
             }
         }
         return changed;
     }
 
-    public void ProtoReaxelEdited(Entity entity, String old_name) {
+    public void ProtoReaxelEdited(Agent entity, String old_name) {
         instances.editReaxels(entity, old_name);
         for (final IhmListener listen : listeners.getListeners(IhmListener.class)) {
             listen.matrixUpdate(getInstances(), updateList(), getTime());

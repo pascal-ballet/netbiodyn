@@ -43,7 +43,7 @@ public class Behavior extends Moteur implements Externalizable {
 
     private static final long serialVersionUID = 1L;
     private Env_Parameters parameters;
-    private final InstanceReaxel entiteVide;
+    private final InstanceAgent entiteVide;
     public JTextPane _description = new JTextPane();
     private double _k = 1;
 
@@ -51,11 +51,22 @@ public class Behavior extends Moteur implements Externalizable {
     public ArrayList<String> _produits = new ArrayList<>();
     public ArrayList<String> _positions = new ArrayList<>();
 
-    public ArrayList<InstanceReaction> _reactionsPossibles = new ArrayList<>();
+    public int[] _origine = new int[3];
+    
+    public ArrayList<InstanceBehavior> _reactionsPossibles = new ArrayList<>();
     public JTextArea _code = new JTextArea();
     public boolean _code_parse = false;
     public ArrayList<WndEditElementDeReaction> _ListElementsReactions = new ArrayList<>();
 //    private static final long serialVersionUID = -8199498788176385232;
+    private double _age;
+
+    public double getAge() {
+        return _age;
+    }
+
+    public void setAge(double _age) {
+        this._age = _age;
+    }
 
     /**
      * Creates new form MoteurReaction
@@ -75,8 +86,11 @@ public class Behavior extends Moteur implements Externalizable {
         }
 
         // Instanciation d'une entite vide
-        entiteVide = new InstanceReaxel();
+        entiteVide = new InstanceAgent();
         entiteVide.setNom("0");
+        // Origine des produits mise a -1 (pas d'origine)
+        for(int i=0; i<_origine.length; i++)
+            _origine[i] = -1;
     }
 
     @Override
@@ -89,6 +103,9 @@ public class Behavior extends Moteur implements Externalizable {
         m._positions = (ArrayList<String>) _positions.clone();
         m._ListElementsReactions = (ArrayList<WndEditElementDeReaction>) _ListElementsReactions.clone();
         m.set_k(get_k());
+        m.setAge(getAge());
+        for(int i=0; i<_origine.length; i++)
+            m._origine[i] = _origine[i];
         return m;
     }
 
@@ -138,7 +155,7 @@ public class Behavior extends Moteur implements Externalizable {
         s.decrementer_nb_processus_a_traiter();
     }
 
-    public ArrayList<InstanceReaction> getReactionsPossibles() {
+    public ArrayList<InstanceBehavior> getReactionsPossibles() {
         return _reactionsPossibles;
     }
 
@@ -209,13 +226,13 @@ public class Behavior extends Moteur implements Externalizable {
         //pour tout les manipule (compartiment, controle_atome,...) 
         // recherche du clinamon 'molecule C' pour obtenir sa pseudoforme pour la suite
         //si controle atome
-        InstanceReaxel c_a;
+        InstanceAgent c_a;
 
         int xb, yb, zb, x, y, z;
 
         for (int j = instances.getSize() - 1; j >= 0; j--) {
             c_a = instances.getInList(j);
-            //recherche d'une molecule A  dans la liste
+            //recherche d'un agent A  dans la liste
 
             if (c_a.getNom().equals(_reactifs.get(0)) && c_a.isSelectionne() == false) {
                 x = c_a.getX();
@@ -224,7 +241,7 @@ public class Behavior extends Moteur implements Externalizable {
 
                 // Test si la reaction a lieu ou pas
                 double hasard = RandomGen.getInstance().nextDouble();
-                if (hasard < this._k) {
+                if (hasard < this._k && c_a.age >= _age ) {
                     int x_min, x_max, y_min, y_max, z_min, z_max;
 
                     x_min = Math.max(0, x - 1);
@@ -236,8 +253,8 @@ public class Behavior extends Moteur implements Externalizable {
 
                     // Recherche si autour il y a tous les reactifs necessaires
                     boolean tousLesReactifs = true;
-                    ArrayList<InstanceReaxel> listReactifs = new ArrayList<>();
-                    InstanceReaxel central = instances.getFast(x, y, z);
+                    ArrayList<InstanceAgent> listReactifs = new ArrayList<>();
+                    InstanceAgent central = instances.getFast(x, y, z);
                     if (central == null) {
                         // Gros probleme
                         System.err.println("GROS PROBLEME en " + x + "*" + y + "*" + z);
@@ -248,7 +265,7 @@ public class Behavior extends Moteur implements Externalizable {
                         boolean trouve = false;
                         boolean hors_cube = false;
                         if (!_reactifs.get(r).equals("*")) {
-                            ArrayList<InstanceReaxel> lst_reactifs_tmp = new ArrayList<>();
+                            ArrayList<InstanceAgent> lst_reactifs_tmp = new ArrayList<>();
                             for (int xx = x_min; xx <= x_max; xx++) {
                                 for (int yy = y_min; yy <= y_max; yy++) {
                                     for (int zz = z_min; zz <= z_max; zz++) {
@@ -261,7 +278,7 @@ public class Behavior extends Moteur implements Externalizable {
                                             //gere les 'bords' du tore
 
                                             if (hors_cube == false) {
-                                                InstanceReaxel rea = instances.getFast(xb, yb, zb);
+                                                InstanceAgent rea = instances.getFast(xb, yb, zb);
                                                 if (rea != null) {
                                                     if (rea.isSelectionne() == false) {
                                                         if (xb != x || yb != y || zb != z) // On a deja pris le central
@@ -277,7 +294,7 @@ public class Behavior extends Moteur implements Externalizable {
                                                 } else if (_reactifs.get(r).equals("0")) {
                                                     boolean deja_present = false;
                                                     for (int re = 0; re < listReactifs.size(); re++) {
-                                                        InstanceReaxel instance = listReactifs.get(re);
+                                                        InstanceAgent instance = listReactifs.get(re);
 //                                                        System.out.println(re + " - " + instance);
                                                         if (instance.getX() == xb && instance.getY() == yb && instance.getZ() == zb) {
                                                             deja_present = true;
@@ -285,7 +302,7 @@ public class Behavior extends Moteur implements Externalizable {
                                                         }
                                                     }
                                                     if (deja_present == false) {
-                                                        InstanceReaxel tmp_cube = new InstanceReaxel();
+                                                        InstanceAgent tmp_cube = new InstanceAgent();
                                                         tmp_cube.setX(xb);
                                                         tmp_cube.setY(yb);
                                                         tmp_cube.setZ(zb);
@@ -299,7 +316,7 @@ public class Behavior extends Moteur implements Externalizable {
                                     }
                                 }
                             }
-                            if (trouve == true) // On prend 1 seul reactif parmi tous les possibles
+                            if (trouve == true) // On prend 1 seul reactif parmi tous les possibles (tous ceux trouves autour)
                             {
                                 int n = RandomGen.getInstance().nextInt(lst_reactifs_tmp.size());
                                 listReactifs.add(lst_reactifs_tmp.get(n));
@@ -365,7 +382,8 @@ public class Behavior extends Moteur implements Externalizable {
 
                     // Placement des produits en fonction de leur position dans les listes
                     if (espace_pour_produits == true) {
-                        InstanceReaction rp = new InstanceReaction();
+                        InstanceBehavior rp = new InstanceBehavior();
+                        rp._behavior = this;
                         _reactionsPossibles.add(rp);
 
                         // Remplacements
@@ -413,7 +431,7 @@ public class Behavior extends Moteur implements Externalizable {
                         // Decrement de j en fct de la position dans la liste
                         int deltaReactifs = listReactifs.size() - 1;
                         // Compte de ceux qui sont * avant * c_a
-                        for (InstanceReaxel listReactif : listReactifs) {
+                        for (InstanceAgent listReactif : listReactifs) {
                             int pos_in_lst = instances.indexOf(listReactif);
                             if (pos_in_lst >= 0 && pos_in_lst < j) {
                                 if (listReactif.getNom() != null) {
@@ -450,7 +468,7 @@ public class Behavior extends Moteur implements Externalizable {
     public double get_k() {
         return _k;
     }
-
+    
     @Override
     public ArrayList<String> toSave() {
         ArrayList<String> toSave = super.toSave();

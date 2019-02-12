@@ -24,10 +24,10 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import netbiodyn.AllInstances;
-import netbiodyn.InstanceReaxel;
+import netbiodyn.InstanceAgent;
 import netbiodyn.Model;
 import netbiodyn.Behavior;
-import netbiodyn.Entity;
+import netbiodyn.Agent;
 import netbiodyn.Simulator;
 import netbiodyn.util.FileSaverLoader;
 import netbiodyn.util.Lang;
@@ -213,14 +213,14 @@ public class Controller {
     /**
      * Creates a new entity type. Called by Environment
      *
-     * @see Entity and WndEditNoeud
+     * @see Agent and WndEditNoeud
      */
     public void addEntity() {
         if (simulator.isRunning()) {
             this.pauseSimulation();
         }
 
-        WndEditNoeud wc = new WndEditNoeud(model.getListManipulesNoeuds(), model.getListManipulesReactions());
+        WndEditAgent wc = new WndEditAgent(model.getListManipulesNoeuds(), model.getListManipulesReactions());
         wc.WndCliValue_Load(null);
         wc.setVisible(true);
         if (wc.getDialogResult().equals("OK") && !wc.entity._etiquettes.equals("")) {
@@ -239,8 +239,8 @@ public class Controller {
             this.pauseSimulation();
         }
 
-        WndEditReaction w = new WndEditReaction(model.getListManipulesNoeuds(), model.getListManipulesReactions());
-        w.WndCliEditReaction3_Load(null);
+        WndEditBehavior w = new WndEditBehavior(model.getListManipulesNoeuds(), model.getListManipulesReactions());
+        w.LoadBehavior(null);
         w.setVisible(true);
         String r = w.getDialogResult();
         if (r != null) {
@@ -250,7 +250,27 @@ public class Controller {
             }
         }
     }
-
+    public void addBehaviourFromAgentMouvement(Agent e) {
+        WndEditBehavior w = new WndEditBehavior(model.getListManipulesNoeuds(), model.getListManipulesReactions());
+        w.LoadBehavior(null);
+        w.setVisible(false);
+        w._r3.set_k(e.mvt_proba);
+        w._r3._reactifs.add(e._etiquettes);
+        w._r3._reactifs.add("0");
+        w._r3._produits.add("0");
+        w._r3._produits.add(e._etiquettes);
+        w._r3._origine[1] = 0; // Le produit 1 a pour origine le reactif 0
+        // Positions possible du deplacement
+        String positions_seconde_ligne = w._r3._positions.get(1); // _positions: 0=no, 1=yes, 2=impossible. Defaut = "212101210" = "0Centre1Droite2Impo3Haut4Devant5Gauche6Impo7Bas8Derriere"        
+        if(e.mvt_droite == true)    positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 1, '1'); else positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 1, '0');
+        if(e.mvt_haut == true)      positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 3, '1'); else positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 3, '0');
+        if(e.mvt_devant == true)    positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 4, '1'); else positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 4, '0');
+        if(e.mvt_gauche == true)    positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 5, '1'); else positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 5, '0');
+        if(e.mvt_bas == true)       positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 7, '1'); else positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 7, '0');
+        if(e.mvt_derriere == true)  positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 8, '1'); else positions_seconde_ligne=UtilDivers.setCharAt(positions_seconde_ligne, 8, '0');
+        w._r3._positions.set(1, positions_seconde_ligne);
+        model.addMoteurReaction(w._r3);
+    }
     /**
      * Change the probability of the Behaviour name by value. Called by
      * Environment
@@ -287,8 +307,8 @@ public class Controller {
         if (i >= 0) {
             String name = env.getDataGridView_comportements().getSelectedValue().toString();
             Behavior cpt = model.getBehaviour((String) env.getDataGridView_comportements().getModel().getElementAt(i));
-            WndEditReaction wc = new WndEditReaction(model.getListManipulesNoeuds(), model.getListManipulesReactions());
-            wc.WndCliEditReaction3_Load(cpt);
+            WndEditBehavior wc = new WndEditBehavior(model.getListManipulesNoeuds(), model.getListManipulesReactions());
+            wc.LoadBehavior(cpt);
             wc.setVisible(true);
             String r = wc.getDialogResult();
             if (r != null && r.equals("OK")) {
@@ -451,7 +471,7 @@ public class Controller {
 
         for (int i = Math.min(top_leftX, bottom_rightX); i < Math.max(top_leftX, bottom_rightX); i++) {
             for (int j = Math.min(top_leftY, bottom_rightY); j < Math.max(top_leftY, bottom_rightY); j++) {
-                InstanceReaxel r = instances.getFast(i, j, z);
+                InstanceAgent r = instances.getFast(i, j, z);
                 if (r != null) {
                     points.add(new UtilPoint3D(r.getX(), r.getY(), r.getZ()));
                 }
@@ -521,7 +541,7 @@ public class Controller {
     /**
      * Edit an existing Entity. Called by Environment
      *
-     * @see Entity and WndEditNoeud
+     * @see Agent and WndEditNoeud
      */
     public void editEntity() {
         if (simulator.isRunning()) {
@@ -530,9 +550,9 @@ public class Controller {
 
         if (env.getDataGridView_entites().getSelectedIndex() >= 0) {
             String name = UtilDivers.str_originale(env.getDataGridView_entites().getSelectedValue().toString());
-            Entity p = model.getProtoReaxel(name);
+            Agent p = model.getProtoReaxel(name);
 
-            WndEditNoeud wc = new WndEditNoeud(model.getListManipulesNoeuds(),
+            WndEditAgent wc = new WndEditAgent(model.getListManipulesNoeuds(),
                     model.getListManipulesReactions());
             wc.WndCliValue_Load(p);
             wc.setVisible(true);
@@ -804,9 +824,9 @@ public class Controller {
         w.setVisible(true);
 
         if (w.getDialogResult().equals("OK")) {
+            this.stopWithoutAsking();
             model.clearEnvironment();
             model.setParameters(w.getParameters());
-            this.stopWithoutAsking();
             setSaved(false);
         }
     }
@@ -822,6 +842,14 @@ public class Controller {
             env.unpause_simulation();
             simulator.setPause(false);
         } else { // On est en STOP et on fait PLAY
+            // Ajouts des comportements de mouvement des agents
+            for(int a=0; a < model.getListManipulesNoeuds().size(); a++) {
+                Agent e = model.getListManipulesNoeuds().get(a);
+                if(e.mvt_proba > 0.0) {
+                    addBehaviourFromAgentMouvement(e);
+                }
+            }
+            // Lancement de la simulation
             env.simulationStarted();
             simulator.start();
         }
@@ -932,6 +960,15 @@ public class Controller {
      */
     public void stopWithoutAsking() {
         if (simulator.getTime() != 0) {
+            
+            // Suppression des comportements de mouvement des agents
+            for(int r=model.getListManipulesReactions().size()-1; r >= 0; r--) {
+                Behavior b = model.getListManipulesReactions().get(r);
+                if(b.getEtiquettes().equals("")) { // Un comportement est sans nom quand il a ete cree automatiquement pour les deplacements
+                    model.getListManipulesReactions().remove(r);
+                }
+            }
+            // Arret de la simulation
             env.stopSimulation();
             simulator.stop();
         }
@@ -949,8 +986,8 @@ public class Controller {
         String str_model = "\\fs32 \\b Entites:\n\\par\n\\b0";
 
         // Entites
-        ArrayList<Entity> lstc = model.getListManipulesNoeuds();
-        for (Entity cli : lstc) {
+        ArrayList<Agent> lstc = model.getListManipulesNoeuds();
+        for (Agent cli : lstc) {
             str_model += cli.getEtiquettes() + "\\b:\\b0";
             str_model += " 1/2 Vie =";
             if (cli.DemieVie > 0) {
@@ -1090,10 +1127,10 @@ public class Controller {
 
     public void select(int x, int y, int z) {
         if (simulator.isStopped()) {
-            InstanceReaxel r = model.getInstances().getFast(x, y, z);
+            InstanceAgent r = model.getInstances().getFast(x, y, z);
             if (r == null) {
                 model.unselect(env.getCubes_selectionnes());
-                env.setCubes_selectionnes(new ArrayList<InstanceReaxel>());
+                env.setCubes_selectionnes(new ArrayList<InstanceAgent>());
             } else if (r.isSelectionne()) {
                 model.unselect(x, y, z);
                 env.unselect(r);
@@ -1104,9 +1141,9 @@ public class Controller {
         }
     }
 
-    public void deplacer(ArrayList<InstanceReaxel> _cubes_selectionnes, int new_x, int new_y, int new_z) {
+    public void deplacer(ArrayList<InstanceAgent> _cubes_selectionnes, int new_x, int new_y, int new_z) {
         model.deplacer(_cubes_selectionnes, new_x, new_y, new_z);
-        env.setCubes_selectionnes(new ArrayList<InstanceReaxel>());
+        env.setCubes_selectionnes(new ArrayList<InstanceAgent>());
         setSaved(false);
     }
 

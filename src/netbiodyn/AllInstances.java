@@ -12,9 +12,9 @@ import java.util.HashMap;
  *
  * @author riviere
  */
-public class AllInstances extends ArrayList<InstanceReaxel> implements Cloneable{
+public class AllInstances extends ArrayList<InstanceAgent> implements Cloneable{
 
-    private InstanceReaxel[][][] matrix; // position (acces rapides) des instances d'entites
+    private InstanceAgent[][][] matrix; // position (acces rapides) des instances d'entites
     private HashMap<String, Integer> entitiesBook; // Nombre d'entités par type
     private int X;
     private int Y;
@@ -25,11 +25,11 @@ public class AllInstances extends ArrayList<InstanceReaxel> implements Cloneable
         X = x;
         Y = y;
         Z = z;
-        matrix = new InstanceReaxel[x][y][z];
+        matrix = new InstanceAgent[x][y][z];
         entitiesBook = new HashMap<>();
     }
 
-    public AllInstances(ArrayList<InstanceReaxel> l, InstanceReaxel[][][] m, int x, int y, int z) {
+    public AllInstances(ArrayList<InstanceAgent> l, InstanceAgent[][][] m, int x, int y, int z) {
         super(l);
         this.matrix = m;
         X = x;
@@ -49,7 +49,7 @@ public class AllInstances extends ArrayList<InstanceReaxel> implements Cloneable
 
     private void updateBook() {
         entitiesBook = new HashMap<>();
-        for (InstanceReaxel c : this) {
+        for (InstanceAgent c : this) {
             if (entitiesBook.containsKey(c.getNom()) == false) {
                 entitiesBook.put(c.getNom(), 1);
             } else {
@@ -70,7 +70,7 @@ public class AllInstances extends ArrayList<InstanceReaxel> implements Cloneable
         }
     }
 
-    private void removeInBook(InstanceReaxel reaxel) {
+    private void removeInBook(InstanceAgent reaxel) {
         String type = reaxel.getNom();
         if (entitiesBook.containsKey(type)) {
             int nbr = entitiesBook.get(type);
@@ -93,9 +93,9 @@ public class AllInstances extends ArrayList<InstanceReaxel> implements Cloneable
         }
     }
     
-    public ArrayList<InstanceReaxel> getByName(String name){
-         ArrayList<InstanceReaxel> entities = new ArrayList<>();
-        for (InstanceReaxel r : this) {
+    public ArrayList<InstanceAgent> getByName(String name){
+         ArrayList<InstanceAgent> entities = new ArrayList<>();
+        for (InstanceAgent r : this) {
             if (r.getNom().equals(name)) {
                 entities.add(r);
             }
@@ -107,7 +107,7 @@ public class AllInstances extends ArrayList<InstanceReaxel> implements Cloneable
         return this.size();
     }
 
-    public InstanceReaxel getInList(int pos) {
+    public InstanceAgent getInList(int pos) {
         if (pos < getSize()) {
             return this.get(pos);
         } else {
@@ -115,11 +115,11 @@ public class AllInstances extends ArrayList<InstanceReaxel> implements Cloneable
         }
     }
 
-    public InstanceReaxel getFast(int x, int y, int z) {
+    public InstanceAgent getFast(int x, int y, int z) {
         return matrix[x][y][z];
     }
 
-    public boolean addReaxel(InstanceReaxel reaxel) {
+    public boolean addReaxel(InstanceAgent reaxel) {
         int x = reaxel.getX();
         int y = reaxel.getY();
         int z = reaxel.getZ();
@@ -132,12 +132,12 @@ public class AllInstances extends ArrayList<InstanceReaxel> implements Cloneable
         return false;
     }
 
-    public void editReaxels(Entity entity, String old_name) {
-        ArrayList<InstanceReaxel> copy = getList();
-        for (InstanceReaxel reaxel : copy) {
+    public void editReaxels(Agent entity, String old_name) {
+        ArrayList<InstanceAgent> copy = getList();
+        for (InstanceAgent reaxel : copy) {
             if (reaxel.getNom().equals(old_name)) {
                 removeReaxel(reaxel);
-                InstanceReaxel newReaxel = InstanceReaxel.CreerReaxel(entity);
+                InstanceAgent newReaxel = InstanceAgent.CreerReaxel(entity);
                 newReaxel.setX(reaxel.getX());
                 newReaxel.setY(reaxel.getY());
                 newReaxel.setZ(reaxel.getZ());
@@ -154,7 +154,7 @@ public class AllInstances extends ArrayList<InstanceReaxel> implements Cloneable
         matrix[x][y][z].setSelectionne(false);
     }
 
-    public boolean removeReaxel(InstanceReaxel reaxel) {
+    public boolean removeReaxel(InstanceAgent reaxel) {
         int x = reaxel.getX();
         int y = reaxel.getY();
         int z = reaxel.getZ();
@@ -168,7 +168,7 @@ public class AllInstances extends ArrayList<InstanceReaxel> implements Cloneable
     }
 
     public boolean removeReaxel(int x, int y, int z) {
-        InstanceReaxel reaxel = matrix[x][y][z];
+        InstanceAgent reaxel = matrix[x][y][z];
         if (reaxel != null) {
             this.remove(reaxel);
             matrix[x][y][z] = null;
@@ -186,8 +186,8 @@ public class AllInstances extends ArrayList<InstanceReaxel> implements Cloneable
     }
 
     public void removeByName(String nom) {
-        ArrayList<InstanceReaxel> copy = getList();
-        for (InstanceReaxel reaxel : copy) {
+        ArrayList<InstanceAgent> copy = getList();
+        for (InstanceAgent reaxel : copy) {
             if (reaxel.getNom().equals(nom)) {
                 removeReaxel(reaxel);
             }
@@ -195,7 +195,7 @@ public class AllInstances extends ArrayList<InstanceReaxel> implements Cloneable
     }
 
     public void removeOnlyCleanable(int x, int y, int z) {
-        InstanceReaxel c = matrix[x][y][z];
+        InstanceAgent c = matrix[x][y][z];
         if (c != null) {
             if ((this.contains(c)) && (c.isVidable())) {
                 removeReaxel(c);
@@ -203,24 +203,24 @@ public class AllInstances extends ArrayList<InstanceReaxel> implements Cloneable
         }
     }
 
-    public void setMatrixAndList(ArrayList<InstanceReaxel> l) {
-        for (InstanceReaxel rea : l) {
+    public void setMatrixAndList(ArrayList<InstanceAgent> l) {
+        for (InstanceAgent rea : l) {
             addReaxel(rea.clone());
         }
         this.updateBook();
     }
 
-    public InstanceReaxel[][][] getMatrix() {
-        InstanceReaxel[][][] copy = new InstanceReaxel[getX()][getY()][getZ()];
-        for (InstanceReaxel r : this) {
+    public InstanceAgent[][][] getMatrix() {
+        InstanceAgent[][][] copy = new InstanceAgent[getX()][getY()][getZ()];
+        for (InstanceAgent r : this) {
             copy[r.getX()][r.getY()][r.getZ()] = r.clone();
         }
         return copy;
     }
 
-    public ArrayList<InstanceReaxel> getList() {
-        ArrayList<InstanceReaxel> copy = new ArrayList<>();
-        for (InstanceReaxel r : this) {
+    public ArrayList<InstanceAgent> getList() {
+        ArrayList<InstanceAgent> copy = new ArrayList<>();
+        for (InstanceAgent r : this) {
             copy.add(r.clone());
         }
         return copy;
